@@ -1,0 +1,32 @@
+@import './vendor/normalize.sass'
+@import './vendor/fonts.sass'
+@import './mixins/mixins.sass'
+
+body
+  @include bg-black
+  margin: 0
+  font-family: 'Inter', 'Roboto',
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+code
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace
+
+.container
+  max-width: 1140px
+  margin: 0 auto
+
+.section
+  box-sizing: border-box
+
+.list
+  list-style-type: none
+  margin: 0
+  padding: 0
+.item
+  margin-left: 0
+  padding-left: 0
+
+@media (max-width: 1140px)
+  .container
+    max-width: 92%

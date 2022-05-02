@@ -1,0 +1,37 @@
+@import '../../mixins/mixins.sass'
+
+.section__nav-tab
+  @include bg-blue
+
+.nav-tab
+  height: 74px
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+.navigation
+  display: flex
+  align-items: center
+.signup
+  @include link
+  @include text-12
+  margin-right: 30px
+  &__link
+    color: #FFFFFF
+.signin
+  @include link
+  @include text-12
+  @include bg-green
+  padding: 8px 20px
+  border-radius: 3px
+  line-height: 16px
+  &__link
+    color: #000000
+
+@media (max-width: 583px)
+  .signup
+    @include text-10
+    margin-right: 12px
+  .signin
+    @include text-10
+    padding: 6px 13px
