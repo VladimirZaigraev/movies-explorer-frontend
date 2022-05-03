@@ -1,6 +1,6 @@
 //AboutProject — компонент с описанием дипломного проекта.
 import React from 'react';
-import './index.sass';
+import './AboutProject.sass';
 
 export const AboutProject = () => {
   return (
@@ -19,11 +19,11 @@ export const AboutProject = () => {
         </ul>
         <ul className="about-project__timeline timeline list">
           <li className="timeline__box timeline__box_left timeline-box item">
-            <div className="timeline-box__period timeline-box__period_left">1 неделя</div>
+            <p className="timeline-box__period timeline-box__period_left">1 неделя</p>
             <p className="timeline-box__type">Back-end</p>
           </li>
           <li className="timeline__box timeline__box_right timeline-box item">
-            <div className="timeline-box__period timeline-box__period_right">4 недели</div>
+            <p className="timeline-box__period timeline-box__period_right">4 недели</p>
             <p className="timeline-box__type">Front-end</p>
           </li>
         </ul>

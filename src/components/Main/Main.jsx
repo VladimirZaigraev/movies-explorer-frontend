@@ -1,6 +1,6 @@
 //Main — компонент страницы «О проекте». Он будет содержать только презентационные компоненты и в будущем, за исключением шапки навигации. 
 import React from 'react'
-import './index.sass'
+import './Main.sass'
 
 import { Promo } from '../Promo/Promo'
 import { NavTab } from '../NavTab/NavTab'

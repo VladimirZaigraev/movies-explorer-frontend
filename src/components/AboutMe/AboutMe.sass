@@ -1,0 +1,57 @@
+@import '../../mixins/mixins.sass'
+
+.about-me
+  padding: 110px 0 100px 0
+  &__title
+    @include title-text-h3
+    padding-bottom: 22px
+    border-bottom: 1px solid #ffffff
+.profile
+  display: flex
+  padding-top: 66px
+  justify-content: space-between
+.author
+  width: 65%
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  &__wrapper
+    display: flex
+    flex-direction: column
+  &__name
+    @include title-text-h1
+    margin: 0 0 19px 0
+    display: inline-block
+  &__prossesion
+    @include text-18
+    margin: 0 0 24px 0
+    display: inline-block
+  &__info
+    @include text-14
+    margin: 0
+
+.avatar
+  width: 270px
+  height: 327px
+  &__img
+    display: block
+    width: 100%
+    height: 100%
+    -o-object-fit: cover
+    object-fit: cover
+    border-radius: 10px
+
+.contacts
+  display: flex
+  &__item
+    margin-right: 20px
+  &__link
+    @include link
+    text-decoration: none
+    color: #ffffff
+
+@media (max-width: 768px)
+  .avatar
+    width: 255px
+    height: 307px
+    &__img

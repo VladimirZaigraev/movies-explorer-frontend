@@ -1,6 +1,7 @@
 //Techs — компонент с использованными технологиями.
 import React from 'react'
-import './index.sass'
+import './Techs.sass'
+
 const techs = [
   {
     id: 1,

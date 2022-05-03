@@ -1,6 +1,6 @@
 //Promo — компонент с вёрсткой баннера страницы «О проекте».
 import React from 'react'
-import './index.sass'
+import './Promo.sass'
 import web from '../../images/web_img.svg'
 
 export const Promo = () => {

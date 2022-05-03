@@ -1,0 +1,109 @@
+@import '../../mixins/mixins.sass'
+
+.about-project
+  padding: 110px 0 110px 0
+  &__title
+    @include title-text-h3
+    padding-bottom: 22px
+    border-bottom: 1px solid #ffffff
+
+.info
+  display: flex
+  padding: 70px 0 110px 0
+  &-box
+    &__title
+      @include text-20
+      margin-bottom: 27px
+      display: inline-block
+    &__text
+      @include text-14
+      margin: 0
+  &-box:nth-child(1)
+    margin-right: 52px
+
+.timeline
+  display: flex
+  justify-content: space-between
+  &__box
+    text-align: center
+    &_left
+      width: 20%
+    &_right
+      width: 80%
+  &-box
+    &__period
+      height: 36px
+      padding-top: 8px
+      box-sizing: border-box
+      margin: 0 0 12px 0
+      @include text-14
+      &_left
+        @include bg-green
+        color: #000000
+      &_right
+        @include bg-gray
+        color: #ffffff
+    &__type
+      @include text-14
+      margin: 0
+      color: #8B8B8B
+
+@media (max-width: 768px)
+  .about-project
+    padding: 90px 0 74px 0
+    &__title
+      padding-bottom: 23px
+  .info
+    display: flex
+    padding: 70px 0 95px 0
+    &-box
+      &__title
+        margin-bottom: 21px
+      &:nth-child(1)
+        margin-right: 38px
+      &__text
+        @include text-12
+        line-height: 18px
+  .timeline
+    &__box
+      text-align: center
+      &_left
+        width: 21%
+      &_right
+        width: 79%
+
+@media (max-width: 583px)
+  .about-project
+    padding: 71px 0 74px 0
+    &__title
+      @include text-18
+      padding-bottom: 28px
+
+  .info
+    display: flex
+    flex-direction: column
+    padding: 62px 0 2px 0
+    &-box
+      margin-bottom: 47px
+      margin: 0 0 59px 0
+      &:nth-child(1)
+        margin-right: 0
+      &__title
+        @include text-18
+        margin-bottom: 13px
+      &__text
+        @include text-11
+
+  .timeline
+    &-box
+      &__period
+        @include text-11
+        // height: 35px
+        margin-bottom: 8px
+      &__type
+        @include text-11
+    &__box
+      &_left
+        width: 35%
+      &_right
+        width: 65%
