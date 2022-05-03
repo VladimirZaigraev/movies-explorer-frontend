@@ -1,1 +1,38 @@
 @import '../../mixins/mixins.sass'
+
+.techs
+  @include bg-gray
+  padding: 100px 0 100px 0
+  &__title
+    @include title-text-h3
+    padding-bottom: 22px
+    border-bottom: 1px solid #ffffff
+  &-info
+    padding-top: 90px
+    display: flex
+    flex-direction: column
+    align-items: center
+    &__title
+      @include title-text-h1
+      letter-spacing: -0.04em
+      margin-bottom: 26px
+    &__text
+      @include text-14
+      max-width: 500px
+      display: inline-block
+      text-align: center
+      margin: 0 0 96px 0
+      letter-spacing: -0.04em
+  &__list
+    display: flex
+    flex-wrap: wrap
+  &__item
+    @include bg-ligth-gray
+    @include text-14
+    border-radius: 10px
+    min-width: 90px
+    height: 60px
+    color: #ffffff
+    text-align: center
+    padding-top: 20px
+    margin: 5px
