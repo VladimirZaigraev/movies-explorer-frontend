@@ -1,0 +1,27 @@
+@import '../../mixins/mixins.sass'
+
+.portfolio
+  &__title
+    @include text-18
+    color: #8B8B8B
+  &__list
+    padding: 50px 0 50px 0
+    display: flex
+    flex-direction: column
+  &__item
+    @include text-30
+    @include link
+    border-bottom: 1px solid #424242
+  &__link
+    width: 100%
+    display: flex
+    justify-content: space-between
+    color: #ffffff
+  &-link
+    &__text
+      margin-right: auto
+    &__arrow
+      transition: 1s
+
+.portfolio__item:hover .portfolio-link__arrow
+  transform: rotate(45deg)
