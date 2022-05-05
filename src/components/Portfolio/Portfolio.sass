@@ -4,24 +4,61 @@
   &__title
     @include text-18
     color: #8B8B8B
+    margin: 0
   &__list
-    padding: 50px 0 50px 0
+    padding: 25px 0 50px 0
     display: flex
     flex-direction: column
   &__item
     @include text-30
     @include link
     border-bottom: 1px solid #424242
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 90px
+    &:last-child
+      border-bottom: none
   &__link
     width: 100%
     display: flex
     justify-content: space-between
+    align-items: center
     color: #ffffff
   &-link
     &__text
-      margin-right: auto
+      margin: 0
     &__arrow
+      width: 17px
+      height: 17px
+      margin: 6px 6px 0px 0
       transition: 1s
 
 .portfolio__item:hover .portfolio-link__arrow
   transform: rotate(45deg)
+
+@media (max-width: 768px)
+  .portfolio
+    &__list
+      padding: 30px 0 50px 0
+    &__item
+      @include text-28
+    &-link
+      &__arrow
+        margin-right: 4px
+
+@media (max-width: 583px)
+  .portfolio
+    &__title
+      @include text-14
+      color: #8B8B8B
+    &__list
+      padding: 23px 0 50px 0
+    &__item
+      @include text-18
+      height: 67px
+    &-link
+      &__arrow
+        width: 11px
+        height: 11px
+        margin: 0px 0px 0px 0
