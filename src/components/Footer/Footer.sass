@@ -1,0 +1,61 @@
+@import '../../mixins/mixins.sass'
+
+.footer
+  padding-top: 131px
+  &__container
+    max-width: 1140px
+    margin: 0 auto
+  &__text
+    @include text-13
+    color: #8B8B8B
+    display: inline-block
+    width: 100%
+    text-align: center
+    margin: 0
+    padding-bottom: 20px
+    border-bottom: 1px solid #424242
+  &__info
+    display: flex
+    justify-content: space-between
+    padding: 20px 0 20px 0
+  &__copiraiting
+    @include text-13
+    margin: 0
+  &-list
+    @include link
+    display: flex
+    margin: 0
+    &__item
+      margin-left: 20px
+    &__link
+      @include text-13
+
+@media (max-width: 768px)
+  .footer
+    padding-top: 97px
+    &__container
+      max-width: 93%
+    &__info
+      padding: 18px 0 20px 0
+    &__copiraiting
+      margin-left: 8px
+
+@media (max-width: 583px)
+  .footer
+    padding-top: 75px
+    &__text
+      @include text-12
+    &__info
+      flex-direction: column-reverse
+      align-items: center
+      padding: 29px 0 20px 0
+    &__copiraiting
+      margin-left: 0
+    &-list
+      flex-direction: column
+      align-items: center
+      margin-bottom: 20px
+      &__item
+        margin: 0px 0px 10px 0px
+      &__link
+        @include text-12

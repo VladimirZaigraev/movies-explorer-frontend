@@ -11,14 +11,14 @@ import { Portfolio } from '../Portfolio/Portfolio'
 
 export const Main = () => {
   return (
-    <div className='main'>
+    <main className='main'>
       <NavTab />
       <Promo />
       <AboutProject />
       <Techs />
       <AboutMe />
       <Portfolio />
-    </div>
+    </main>
 
   )
 }

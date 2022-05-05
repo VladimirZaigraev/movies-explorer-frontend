@@ -5,6 +5,7 @@ import { Movies } from '../Movies/Movies';
 import { Login } from '../Login/Login';
 import { Register } from '../Register/Register'
 import './index.sass';
+import { Footer } from '../Footer/Footer';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Register />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }
