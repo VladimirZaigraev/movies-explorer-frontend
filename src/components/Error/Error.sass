@@ -1,0 +1,62 @@
+@import '../../mixins/mixins.sass'
+
+.error
+  &__container
+    display: flex
+    flex-direction: column
+    align-items: center
+    height: 100vh
+  &__wrapper
+    display: flex
+    flex: 1 0 auto
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    padding-top: 67px
+  &__title
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 140px
+    line-height: 169px
+    text-align: center
+    color: #FFFFFF
+    margin: 0
+    display: inline-block
+    margin-bottom: 5px
+  &__subtitle
+    font-family: 'Inter'
+    font-style: normal
+    font-weight: 400
+    font-size: 16px
+    line-height: 19px
+    text-align: center
+    color: #FFFFFF
+    margin: 0
+  &__link
+    flex: 0 0 80px
+    @include text-14
+    color: #4285F4
+
+@media (max-width: 768px)
+  .error
+    &__wrapper
+      flex: 1 0 auto
+      padding-top: 33%
+    &__link
+      flex: 0 0 23%
+
+@media (max-width: 583px)
+  .error
+    &__wrapper
+      flex: 1 0 auto
+      padding-top: 17%
+    &__title
+      font-size: 80px
+      line-height: 97px
+      margin-bottom: 10px
+    &__subtitle
+      @include text-12
+    &__link
+      @include text-12
+      flex: 0 0 6%

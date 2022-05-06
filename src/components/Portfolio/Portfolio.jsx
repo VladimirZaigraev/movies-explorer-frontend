@@ -32,7 +32,7 @@ export const Portfolio = () => {
             portfolioSite.map((elem) => {
               return (
                 <li className="portfolio__item item" key={elem.id}>
-                  <Link className="portfolio__link portfolio-link" to={elem.link}>
+                  <Link className="portfolio__link portfolio-link link" to={elem.link}>
                     <p className="portfolio-link__text">{elem.title}</p>
                     <img className="portfolio-link__arrow" src={arrow} alt="arrow" />
                   </Link>

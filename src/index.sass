@@ -11,13 +11,18 @@ body
 
 code
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace
-
+.body
+  display: flex
+  flex-direction: column
+  flex: 1 0 auto
 .container
   max-width: 1140px
   margin: 0 auto
-
+  // flex: 1 0 auto
 .section
   box-sizing: border-box
+  display: flex
+  flex-direction: column
 
 .list
   list-style-type: none
@@ -27,6 +32,13 @@ code
   margin-left: 0
   padding-left: 0
   box-sizing: border-box
+
+.link
+  text-decoration: none
+  color: #FFFFFF
+  transition: opacity 0.5s linear
+.link:hover
+  opacity: 0.6
 
 @media (max-width: 1140px)
   .container

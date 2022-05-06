@@ -38,7 +38,7 @@ export const AboutMe = () => {
                 contacts.map((contact) => {
                   return (
                     <li className="contacts__item item" key={contact.id}>
-                      <Link className="contacts__link" to={contact.link} target="_blank">
+                      <Link className="contacts__link link" to={contact.link} target="_blank">
                         {contact.name}
                       </Link>
                     </li>

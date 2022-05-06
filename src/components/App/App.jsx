@@ -5,12 +5,12 @@ import { Movies } from '../Movies/Movies';
 import { Login } from '../Login/Login';
 import { Register } from '../Register/Register'
 import './index.sass';
-import { Footer } from '../Footer/Footer';
-
+//import { Footer } from '../Footer/Footer';
+import { Error } from '../Error/Error';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Switch>
         <Route
           exact
@@ -29,8 +29,11 @@ function App() {
           path="/signup">
           <Register />
         </Route>
+        <Route
+          path="/error">
+          <Error />
+        </Route>
       </Switch>
-      <Footer />
     </div>
   );
 }
