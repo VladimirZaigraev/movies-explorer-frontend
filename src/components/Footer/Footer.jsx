@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import './Footer.sass'
 
 const footerLink = [
@@ -34,7 +34,14 @@ export const Footer = () => {
               footerLink.map((elem) => {
                 return (
                   <li className="footer-list__item item" id={elem.id}>
-                    <Link className="footer-list__link link" to={elem.link}>{elem.name}</Link>
+                    <a
+                      className="footer-list__link link"
+                      href={elem.link}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      {elem.name}
+                    </a>
                   </li>
                 )
               })

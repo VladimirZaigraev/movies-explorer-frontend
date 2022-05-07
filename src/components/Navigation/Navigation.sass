@@ -1,0 +1,24 @@
+@import '../../mixins/mixins.sass'
+
+.navigation
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  padding-bottom: 5px
+  &__list
+    display: flex
+    margin-left: 45px
+  &__item
+    margin-right: 16px
+  &__link
+    @include text-13
+
+  &__account
+    display: flex
+    align-items: center
+
+.account
+  @include text-14
+  &__icon
+    margin-left: 19px

@@ -9,9 +9,13 @@ export const NavTab = () => {
     <div className="section section__nav-tab">
       <div className="nav-tab">
         <Logo />
-        <ul className="nav-tab__navigation navigation list">
-          <li className='navigation__signup signup item'><NavLink className='signup__link link' to="/signup">Регистрация</NavLink></li>
-          <li className='navigation__signin signin item'><NavLink className='signin__link link' to="/signin">Войти</NavLink></li>
+        <ul className="nav-tab__list list">
+          <li className='nav-tab__item nav-tab__signup item'>
+            <NavLink className='nav-tab__link link' to="/signup">Регистрация</NavLink>
+          </li>
+          <li className='nav-tab__item nav-tab__signin item'>
+            <NavLink className='nav-tab__link link' to="/signin">Войти</NavLink>
+          </li>
         </ul>
       </div>
     </div>

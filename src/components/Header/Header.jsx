@@ -1,9 +1,19 @@
 // Header — компонент отрисовывает шапку сайта на страницу.
 import React from 'react'
-import './index.sass'
+import { Logo } from '../Logo/Logo'
+import { Navigation } from '../Navigation/Navigation'
+import './Header.sass'
 
 export const Header = () => {
   return (
-    <div>Header</div>
+    <div className='header'>
+      <div className="container">
+        <div className="header__wrapper">
+          <Logo />
+          <Navigation />
+        </div>
+      </div>
+    </div>
   )
 }
+

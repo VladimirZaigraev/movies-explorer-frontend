@@ -1,6 +1,5 @@
 //Portfolio — компонент со ссылками на другие проекты.
 import React from 'react'
-import { Link } from 'react-router-dom'
 import arrow from '../../images/arrow.svg'
 import './Portfolio.sass'
 
@@ -32,10 +31,14 @@ export const Portfolio = () => {
             portfolioSite.map((elem) => {
               return (
                 <li className="portfolio__item item" key={elem.id}>
-                  <Link className="portfolio__link portfolio-link link" to={elem.link}>
+                  <a
+                    className="portfolio__link portfolio-link link"
+                    target='_blank'
+                    rel='noreferrer'
+                    href={elem.link}>
                     <p className="portfolio-link__text">{elem.title}</p>
                     <img className="portfolio-link__arrow" src={arrow} alt="arrow" />
-                  </Link>
+                  </a>
                 </li>
               )
             })

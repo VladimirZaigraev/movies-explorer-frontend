@@ -1,0 +1,37 @@
+@import '../../mixins/mixins.sass'
+
+.checkbox
+  position: relative
+  width: 36px
+  height: 20px
+  @include bg-ligth-gray
+  border-radius: 10px
+  &__label
+    position: absolute
+    display: block
+    top: 2px
+    right: 2px
+    width: 16px
+    height: 16px
+    // border: 1px solid #ffffff
+    border-radius: 50%
+    background: #ffffff
+    transition: all 0.4s ease
+    cursor: pointer
+    &::after
+      position: absolute
+      content: ''
+      width: 14px
+      height: 14px
+      @include bg-green
+      border-radius: 50%
+      top: 1px
+      right: 1px
+      z-index: 1
+  &__input
+    visibility: hidden
+
+.checkbox__input:checked + .checkbox__label
+  right: 18px
+.checkbox__input:checked + .checkbox__label::after
+  @include bg-gray

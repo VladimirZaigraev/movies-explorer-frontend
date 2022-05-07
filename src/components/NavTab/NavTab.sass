@@ -10,31 +10,31 @@
   align-items: center
   max-width: 1140px
   margin: 0 auto
-
-.navigation
-  display: flex
-  align-items: center
-.signup
-  @include text-12
-  margin-right: 30px
+  &__list
+    display: flex
+    align-items: center
+  &__signup
+    @include text-12
+    margin-right: 30px
   &__link
     color: #FFFFFF
-.signin
-  @include text-12
-  @include bg-green
-  padding: 8px 20px
-  border-radius: 3px
-  line-height: 16px
-  &__link
+  &__signin
+    @include text-12
+    @include bg-green
+    padding: 8px 20px
+    border-radius: 3px
+    line-height: 16px
     color: #000000
+
 @media (max-width: 1140px)
   .nav-tab
     max-width: 92%
 
 @media (max-width: 583px)
-  .signup
-    @include text-10
-    margin-right: 12px
-  .signin
-    @include text-10
-    padding: 6px 13px
+  .nav-tab
+    &__signup
+      @include text-10
+      margin-right: 12px
+    &__signin
+      @include text-10
+      padding: 6px 13px

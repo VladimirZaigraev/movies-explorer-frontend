@@ -1,6 +1,5 @@
 //AboutMe — компонент с информацией о студенте.
 import React from 'react';
-import { Link } from 'react-router-dom'
 import './AboutMe.sass';
 import avatar from '../../images/avatar.jpeg'
 
@@ -38,9 +37,13 @@ export const AboutMe = () => {
                 contacts.map((contact) => {
                   return (
                     <li className="contacts__item item" key={contact.id}>
-                      <Link className="contacts__link link" to={contact.link} target="_blank">
+                      <a
+                        className="contacts__link link"
+                        href={contact.link}
+                        target="_blank"
+                        rel='noreferrer'>
                         {contact.name}
-                      </Link>
+                      </a>
                     </li>
                   )
                 })
@@ -48,7 +51,7 @@ export const AboutMe = () => {
             </ul>
           </div>
           <div className="profile__avatar avatar">
-            <img src={avatar} alt="avatar" className="avatar__img" />
+            <img src={avatar} alt="аватар" className="avatar__img" />
           </div>
         </div>
       </div>

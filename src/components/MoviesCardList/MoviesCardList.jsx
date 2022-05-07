@@ -1,9 +1,17 @@
 //MoviesCardList — компонент управляет отрисовкой карточек фильмов на страницу и их количеством.
 import React from 'react'
-import './index.sass'
+import './MoviesCardList.sass'
+import { MoviesCard } from '../MoviesCard/MoviesCard'
 
 export const MoviesCardList = () => {
   return (
-    <div>MoviesCardList</div>
+    <section className="cards">
+      <div className="container">
+        <ul className="cards__list list">
+          <MoviesCard />
+        </ul>
+        <button className="cards__button">Ещё</button>
+      </div>
+    </section>
   )
 }
