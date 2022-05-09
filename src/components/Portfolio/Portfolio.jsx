@@ -17,7 +17,7 @@ const portfolioSite = [
   {
     id: 3,
     title: "Одностраничное приложение",
-    link: "https://zaigraev.nomoredomains"
+    link: "https://zaigraev.nomoredomains.work"
   }
 ]
 
