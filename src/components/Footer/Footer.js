@@ -33,7 +33,7 @@ export const Footer = () => {
             {
               footerLink.map((elem) => {
                 return (
-                  <li className="footer-list__item item" id={elem.id}>
+                  <li className="footer-list__item item" key={elem.id}>
                     <a
                       className="footer-list__link link"
                       href={elem.link}

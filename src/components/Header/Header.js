@@ -7,11 +7,9 @@ import './Header.sass'
 export const Header = () => {
   return (
     <div className='header'>
-      <div className="container">
-        <div className="header__wrapper">
-          <Logo />
-          <Navigation />
-        </div>
+      <div className="header__wrapper">
+        <Logo />
+        <Navigation />
       </div>
     </div>
   )
