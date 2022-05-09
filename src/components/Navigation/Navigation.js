@@ -7,9 +7,6 @@ import account from '../../images/account.svg'
 export const Navigation = () => {
   return (
     <div className="navigation">
-      <div className="mobile-menu__btn">
-        <span></span>
-      </div>
       <ul className="navigation__list list">
         <li className="navigation__item item">
           <NavLink

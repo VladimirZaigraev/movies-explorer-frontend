@@ -25,12 +25,13 @@ export const MoviesCardList = () => {
       <ul className="cards__list list">
         {
           movies.slice(0, counter).map((movie) => {
-            console.log(movie.duration)
+            // console.log(movie.trailerLink)
             return (
               < MoviesCard
                 key={movie.id}
                 nameMovie={movie.nameRU}
                 linkImage={`https://api.nomoreparties.co/${movie.image.url}`}
+                trailerLink={movie.trailerLink}
                 movieDuration={movie.duration} />
             )
           })

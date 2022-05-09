@@ -2,8 +2,7 @@
 import React from 'react'
 import './MoviesCard.sass'
 
-export const MoviesCard = ({ nameMovie, linkImage, movieDuration }) => {
-
+export const MoviesCard = ({ nameMovie, linkImage, trailerLink, movieDuration }) => {
   const duration = String((movieDuration / 60).toFixed(0)) + ' ч ' + String(movieDuration % 60) + ' мин';
 
   const isLiked = false //временнно
@@ -21,9 +20,12 @@ export const MoviesCard = ({ nameMovie, linkImage, movieDuration }) => {
         </div>
         <button className={cardLikeButtonClassName}></button>
       </div>
-      <div className="card__poster poster">
-        <img className="poster__image" src={linkImage} alt="постер фильма" />
-      </div>
+      <a href={trailerLink}
+        className="card__poster poster"
+        target='_blank'
+        rel='noreferrer'>
+        <img className="poster__image" src={linkImage} alt={'Постер фильма:' + nameMovie} />
+      </a>
     </li>
   )
 }
