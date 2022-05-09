@@ -1,9 +1,15 @@
 // Profile — компонент страницы изменения профиля.
 import React from 'react'
-import './index.sass'
+import { Header } from '../Header/Header'
+import './Profile.sass'
 
 export const Profile = () => {
   return (
-    <div>Profile</div>
+    <div>
+      <Header />
+      <div className='container'>
+
+      </div>
+    </div>
   )
 }

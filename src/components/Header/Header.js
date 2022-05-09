@@ -6,12 +6,12 @@ import './Header.sass'
 
 export const Header = () => {
   return (
-    <div className='header'>
+    <header className='header'>
       <div className="header__wrapper">
         <Logo />
         <Navigation />
       </div>
-    </div>
+    </header>
   )
 }
 

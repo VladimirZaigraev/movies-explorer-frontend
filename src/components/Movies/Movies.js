@@ -8,12 +8,12 @@ import { MoviesCardList } from '../MoviesCardList/MoviesCardList'
 
 export const Movies = () => {
   return (
-    <div className='movies'>
-      <div className="movies__container">
-        <Header />
+    <div>
+      <Header />
+      <section className="movies">
         <SearchForm />
         <MoviesCardList />
-      </div>
+      </section>
       <Footer />
     </div>
   )

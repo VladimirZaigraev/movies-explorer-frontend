@@ -4,7 +4,7 @@ import { Main } from '../Main/Main';
 import { Movies } from '../Movies/Movies';
 import { Login } from '../Login/Login';
 import { Register } from '../Register/Register'
-//import { Footer } from '../Footer/Footer';
+import { Profile } from '../Profile/Profile';
 import { Error } from '../Error/Error';
 import './index.sass';
 
@@ -32,6 +32,11 @@ function App() {
         <Route path="/error">
           <Error />
         </Route>
+
+        <Route path="/profile">
+          <Profile />
+        </Route>
+
 
       </Switch>
     </div>
