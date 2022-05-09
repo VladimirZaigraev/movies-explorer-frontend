@@ -7,6 +7,7 @@
   padding: 6px 6px 6px 22px
   display: flex
   justify-content: space-between
+  margin-bottom: 40px
   &__wrapper
     display: flex
     flex-direction: column
@@ -31,6 +32,8 @@
     height: 12px
     background-color: inherit
     border: none
+    &_active
+      background-image: url('../../images/like_active.svg')
 .poster
   width: 220px
   height: 100%
@@ -39,3 +42,19 @@
     width: 100%
     height: 100%
     object-fit: cover
+
+@media (max-width: 582px)
+  .card
+    flex-direction: column-reverse
+    padding: 0px 0px 10px 0px
+    margin-bottom: 20px
+    height: 232px
+    &__wrapper
+      padding: 14px 16px 0 12px
+      flex-direction: row
+    &__title
+      @include text-12
+      margin: 0 0 8px 0
+  .poster
+    width: 100%
+    height: 168px
