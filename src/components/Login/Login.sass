@@ -9,6 +9,23 @@
     height: 100vh
   &__wrapper
     width: 396px
+    height: 559px
   &__title
     @include text-24
-    margin: 40px 0 40px 0
+    margin: 36px 0 37px 0
+  &__button
+    margin-top: 162px
+
+@media (max-width: 586px)
+  .login
+    &__wrapper
+      width: 92%
+      height: 86%
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: flex-start
+    &__title
+      margin: 47px 0 10vh 0
+    &__button
+      margin-top: 32vh

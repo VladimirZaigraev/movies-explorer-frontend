@@ -60,10 +60,10 @@ export const Register = () => {
                 autoComplete="off" />
               <span className="form__input-erorr" id="password-error">Текст ошибки</span>
             </fieldset>
-            <button className="form__button">Войти</button>
+            <button className="form__button">Зарегестрироваться</button>
           </form>
           <p className="register__text redirect">
-            Ещё не зарегистрированы?&nbsp;
+            Уже зарегистрированы?&nbsp;
             <Link to="sign-in" className="register__link redirect__link link">Войти</Link>
           </p>
         </div>

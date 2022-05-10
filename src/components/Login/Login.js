@@ -44,11 +44,11 @@ export const Login = () => {
                 autoComplete="off" />
               <span className="form__input-erorr" id="password-error">Текст ошибки</span>
             </fieldset>
-            <button className="form__button">Войти</button>
+            <button className="form__button login__button">Войти</button>
           </form>
           <p className="login__text redirect">
             Ещё не зарегистрированы?&nbsp;
-            <Link to="sign-in" className="login__link redirect__link link">Зарегестрироваться</Link>
+            <Link to="sign-in" className="login__link redirect__link link">Регистрация</Link>
           </p>
         </div>
       </div>

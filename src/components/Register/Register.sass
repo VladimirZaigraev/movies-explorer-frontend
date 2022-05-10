@@ -9,6 +9,20 @@
     height: 100vh
   &__wrapper
     width: 396px
+    height: 559px
   &__title
     @include text-24
-    margin: 40px 0 40px 0
+    margin: 36px 0 37px 0
+
+@media (max-width: 586px)
+  .register
+    &__wrapper
+      width: 91%
+      height: 86%
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: flex-start
+    &__title
+      @include text-24
+      margin: 47px 0 79px 0
