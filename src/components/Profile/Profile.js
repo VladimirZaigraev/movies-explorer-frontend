@@ -1,6 +1,5 @@
 // Profile — компонент страницы изменения профиля.
 import React, { useState } from 'react'
-import { Header } from '../Header/Header'
 import { Link } from 'react-router-dom'
 import './Profile.sass'
 
@@ -16,26 +15,11 @@ export const Profile = () => {
   }
   return (
     <div>
-      <Header />
       <section className="profile">
         <div className="container profile__container">
           <div className="profile__wrapper">
             {
               edit ? (
-                <div className="profile__user user">
-                  <h3 className="profile__title">
-                    Привет, Виталий!
-                  </h3>
-                  <div className="user__info">
-                    <p className="user__title">Имя</p>
-                    <p className="user__data">Виталий</p>
-                  </div>
-                  <div className="user__info">
-                    <p className="user__title">E-mail</p>
-                    <p className="user__data">pochta@yandex.ru</p>
-                  </div>
-                </div>
-              ) : (
                 <div className="profile__edit edit">
                   <h3 className="profile__title">
                     Внесите новые данные
@@ -75,6 +59,20 @@ export const Profile = () => {
                     </fieldset>
                     <button className="form__button edit__button">Сохранить</button>
                   </form>
+                </div>
+              ) : (
+                <div className="profile__user user">
+                  <h3 className="profile__title">
+                    Привет, Виталий!
+                  </h3>
+                  <div className="user__info">
+                    <p className="user__title">Имя</p>
+                    <p className="user__data">Виталий</p>
+                  </div>
+                  <div className="user__info">
+                    <p className="user__title">E-mail</p>
+                    <p className="user__data">pochta@yandex.ru</p>
+                  </div>
                 </div>
               )
             }

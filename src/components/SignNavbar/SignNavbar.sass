@@ -1,9 +1,6 @@
 @import '../../mixins/mixins.sass'
 
-.section__nav-tab
-  @include bg-blue
-
-.nav-tab
+.sign-navbar
   height: 74px
   display: flex
   justify-content: space-between
@@ -27,11 +24,11 @@
     color: #000000
 
 @media (max-width: 1140px)
-  .nav-tab
+  .sign-navbar
     max-width: 92%
 
 @media (max-width: 583px)
-  .nav-tab
+  .sign-navbar
     &__signup
       @include text-10
       margin-right: 12px

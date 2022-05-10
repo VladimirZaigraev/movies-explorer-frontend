@@ -2,16 +2,22 @@
 import React from 'react'
 import { Logo } from '../Logo/Logo'
 import { Navigation } from '../Navigation/Navigation'
+import { SignNavbar } from '../SignNavbar/SignNavbar'
 import './Header.sass'
 
-export const Header = () => {
+export const Header = ({ isLogin }) => {
+  console.log(isLogin)
+  const bagColor = isLogin ? 'inherit' : '#073042'
+  console.log(bagColor)
   return (
-    <header className='header'>
-      <div className="header__wrapper">
+    <header className='header' style={{ backgroundColor: bagColor }} >
+      < div className="header__wrapper" >
         <Logo />
-        <Navigation />
-      </div>
-    </header>
+        {
+          isLogin ? <Navigation /> : <SignNavbar />
+        }
+      </div >
+    </header >
   )
 }
 
