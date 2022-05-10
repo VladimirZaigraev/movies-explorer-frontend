@@ -25,8 +25,8 @@ export const AboutMe = () => {
     <section className="about-me">
       <div className="container">
         <h3 className="about-me__title">Студент</h3>
-        <div className="about-me__profile profile">
-          <div className="profile__author author">
+        <div className="about-me__author author">
+          <div className="author__bio author-bio">
             <div className="author__wrapper">
               <span className="author__name">Владимир</span>
               <p className="author__prossesion">Фронтенд-разработчик, 34 года</p>
@@ -50,7 +50,7 @@ export const AboutMe = () => {
               }
             </ul>
           </div>
-          <div className="profile__avatar avatar">
+          <div className="author__avatar avatar">
             <img src={avatar} alt="аватар" className="avatar__img" />
           </div>
         </div>
