@@ -6,13 +6,13 @@ import './Profile.sass'
 export const Profile = () => {
   const [edit, setEdit] = useState(false);
 
-  const handleEdit = () => {
-    if (edit === false) {
-      setEdit(true)
-    } else {
-      setEdit(false)
-    }
-  }
+  // const handleEdit = () => {
+  //   if (edit === false) {
+  //     setEdit(true)
+  //   } else {
+  //     setEdit(false)
+  //   }
+  // }
   return (
     <div>
       <section className="profile">
@@ -57,7 +57,7 @@ export const Profile = () => {
                         autoComplete="off" />
                       <span className="form__input-erorr" id="e-mail-error">Текст ошибки</span>
                     </fieldset>
-                    <button className="form__button edit__button">Сохранить</button>
+                    <button className="form__button edit__button" onClick={() => setEdit(!edit)}>Сохранить</button>
                   </form>
                 </div>
               ) : (
@@ -77,7 +77,9 @@ export const Profile = () => {
               )
             }
             <div className="profile__footer">
-              <button className="profile__edit-btn" onClick={handleEdit}>Редактировать</button>
+              {
+                (!edit ? <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button> : '')
+              }
               <Link className="profile__logout link" to="/">Выйти из аккаунта</Link>
             </div>
           </div>

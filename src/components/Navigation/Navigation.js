@@ -1,30 +1,82 @@
 // Navigation — компонент отвечает за меню навигации на сайте.
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import './Navigation.sass'
 import account from '../../images/account.svg'
 
 export const Navigation = () => {
+  const [menuActive, setMenuActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  function updateScreenType() {
+    setIsMobile(window.innerWidth <= 768);
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateScreenType);
+    return () => {
+      window.removeEventListener('resize', updateScreenType);
+    };
+
+  }, []);
+
   return (
-    <div className="navigation">
-      <ul className="navigation__list list">
-        <li className="navigation__item item">
-          <NavLink
-            className="navigation__link link"
-            to='movies'>
-            Фильмы
-          </NavLink>
-        </li>
-        <li className="navigation__item item">
-          <NavLink
-            className="navigation__link link"
-            to='#'>
-            Сохранённые фильмы
-          </NavLink>
-        </li>
-      </ul>
-      <NavLink className="navigation__account account link" to="">Аккаунт  <img src={account} alt="account icon" className="account__icon" />
-      </NavLink>
-    </div>
+    <>
+      {
+        !isMobile ? (
+          <div className="navigation">
+            <ul className="navigation__list list">
+              <li className="navigation__item item">
+                <NavLink
+                  className="navigation__link link"
+                  to='movies'>
+                  Фильмы
+                </NavLink>
+              </li>
+              <li className="navigation__item item">
+                <NavLink
+                  className="navigation__link link"
+                  to='#'>
+                  Сохранённые фильмы
+                </NavLink>
+              </li>
+            </ul>
+            <NavLink className="navigation__account account link" to="">Аккаунт  <img src={account} alt="account icon" className="account__icon" />
+            </NavLink>
+          </div>
+        ) : (
+          <div className="navigation-mobile">
+            <div className="navigation-mobile__burger-btn burger-btn" onClick={() => setMenuActive(!menuActive)}>
+              <span className="burger-btn__span"></span>
+              <div className={menuActive ? " mobile-menu__overlay_active" : "mobile-menu__overlay"} />
+              <div className={menuActive ? "navigation-mobile__menu mobile-menu mobile-menu_active" : "navigation-mobile__menu mobile-menu"} onClick={() => setMenuActive(!menuActive)}>
+                <div className="mobile-menu__content">
+                  <ul className="mobile-menu__list list">
+                    <li className="mobile-menu__item item">
+                      <NavLink
+                        exact
+                        to='/'
+                        className="mobile-menu__link link">Главная</NavLink>
+                    </li>
+                    <li className="mobile-menu__item item">
+                      <NavLink
+                        to='/movies'
+                        className="mobile-menu__link link">Фильмы</NavLink>
+                    </li>
+                    <li className="mobile-menu__item item">
+                      <NavLink
+                        to='/saved-movies'
+                        className="mobile-menu__link link">Сохранённые фильмы</NavLink>
+                    </li>
+                  </ul>
+                  <NavLink className="mobile-menu__account link" to='/profile'>Аккаунт  <img src={account} alt="account icon" className="account__icon" />
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </>
   )
 }

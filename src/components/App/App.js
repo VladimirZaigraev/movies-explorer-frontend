@@ -11,7 +11,7 @@ import { Footer } from '../Footer/Footer';
 import './App.sass';
 
 function App() {
-  // const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(false);
   return (
     <div className="app">
       <Switch>
