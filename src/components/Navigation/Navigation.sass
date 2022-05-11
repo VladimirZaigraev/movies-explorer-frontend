@@ -13,7 +13,9 @@
     margin-right: 16px
   &__link
     @include text-13
-
+    font-weight: 400
+    &_active
+      font-weight: 500
   &__account
     display: flex
     align-items: center
@@ -96,6 +98,8 @@
     margin-bottom: 28px
   &__link
     @include text-18
+    &_active
+      border-bottom: 2px solid #fff
   &__account
     @include text-14
     display: flex

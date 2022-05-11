@@ -28,20 +28,23 @@ export const Navigation = () => {
             <ul className="navigation__list list">
               <li className="navigation__item item">
                 <NavLink
-                  className="navigation__link link"
-                  to='movies'>
+                  className={({ isActive }) => isActive ? "navigation__link navigation__link_active link" : "navigation__link link"}
+                  to='/movies'>
                   Фильмы
                 </NavLink>
               </li>
               <li className="navigation__item item">
                 <NavLink
-                  className="navigation__link link"
-                  to='#'>
+                  className={({ isActive }) => isActive ? "navigation__link navigation__link_active link" : "navigation__link link"}
+                  to='/saved-movies'>
                   Сохранённые фильмы
                 </NavLink>
               </li>
             </ul>
-            <NavLink className="navigation__account account link" to="">Аккаунт  <img src={account} alt="account icon" className="account__icon" />
+            <NavLink
+              className="navigation__account account link"
+              to="/profile">Аккаунт
+              <img src={account} alt="account icon" className="account__icon" />
             </NavLink>
           </div>
         ) : (
@@ -56,17 +59,17 @@ export const Navigation = () => {
                       <NavLink
                         exact
                         to='/'
-                        className="mobile-menu__link link">Главная</NavLink>
+                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Главная</NavLink>
                     </li>
                     <li className="mobile-menu__item item">
                       <NavLink
                         to='/movies'
-                        className="mobile-menu__link link">Фильмы</NavLink>
+                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Фильмы</NavLink>
                     </li>
                     <li className="mobile-menu__item item">
                       <NavLink
                         to='/saved-movies'
-                        className="mobile-menu__link link">Сохранённые фильмы</NavLink>
+                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Сохранённые фильмы</NavLink>
                     </li>
                   </ul>
                   <NavLink className="mobile-menu__account link" to='/profile'>Аккаунт  <img src={account} alt="account icon" className="account__icon" />

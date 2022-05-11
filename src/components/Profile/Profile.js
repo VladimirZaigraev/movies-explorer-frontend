@@ -1,20 +1,15 @@
 // Profile — компонент страницы изменения профиля.
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Header } from '../Header/Header';
 import './Profile.sass'
 
 export const Profile = () => {
   const [edit, setEdit] = useState(false);
 
-  // const handleEdit = () => {
-  //   if (edit === false) {
-  //     setEdit(true)
-  //   } else {
-  //     setEdit(false)
-  //   }
-  // }
   return (
-    <div>
+    <>
+      <Header isLogin={true} />
       <section className="profile">
         <div className="container profile__container">
           <div className="profile__wrapper">
@@ -85,6 +80,6 @@ export const Profile = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   )
 }
