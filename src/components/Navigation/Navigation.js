@@ -49,32 +49,33 @@ export const Navigation = () => {
           </div>
         ) : (
           <div className="navigation-mobile">
-            <div className="navigation-mobile__burger-btn burger-btn" onClick={() => setMenuActive(!menuActive)}>
+            <div className={menuActive ? "navigation-mobile__burger-btn burger-btn_active burger-btn" : "navigation-mobile__burger-btn burger-btn"}
+              onClick={() => setMenuActive(!menuActive)}>
               <span className="burger-btn__span"></span>
-              <div className={menuActive ? " mobile-menu__overlay_active" : "mobile-menu__overlay"} />
-              <div className={menuActive ? "navigation-mobile__menu mobile-menu mobile-menu_active" : "navigation-mobile__menu mobile-menu"} onClick={() => setMenuActive(!menuActive)}>
-                <div className="mobile-menu__content">
-                  <ul className="mobile-menu__list list">
-                    <li className="mobile-menu__item item">
-                      <NavLink
-                        exact
-                        to='/'
-                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Главная</NavLink>
-                    </li>
-                    <li className="mobile-menu__item item">
-                      <NavLink
-                        to='/movies'
-                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Фильмы</NavLink>
-                    </li>
-                    <li className="mobile-menu__item item">
-                      <NavLink
-                        to='/saved-movies'
-                        className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Сохранённые фильмы</NavLink>
-                    </li>
-                  </ul>
-                  <NavLink className="mobile-menu__account link" to='/profile'>Аккаунт  <img src={account} alt="account icon" className="account__icon" />
-                  </NavLink>
-                </div>
+            </div>
+            <div className={menuActive ? " mobile-menu__overlay_active" : "mobile-menu__overlay"} />
+            <div className={menuActive ? "navigation-mobile__menu mobile-menu mobile-menu_active" : "navigation-mobile__menu mobile-menu"} onClick={() => setMenuActive(!menuActive)}>
+              <div className="mobile-menu__content">
+                <ul className="mobile-menu__list list">
+                  <li className="mobile-menu__item item">
+                    <NavLink
+                      // exact
+                      to='/'
+                      className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Главная</NavLink>
+                  </li>
+                  <li className="mobile-menu__item item">
+                    <NavLink
+                      to='/movies'
+                      className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Фильмы</NavLink>
+                  </li>
+                  <li className="mobile-menu__item item">
+                    <NavLink
+                      to='/saved-movies'
+                      className={({ isActive }) => isActive ? "mobile-menu__link mobile-menu__link_active link" : "mobile-menu__link link"}>Сохранённые фильмы</NavLink>
+                  </li>
+                </ul>
+                <NavLink className="mobile-menu__account link" to='/profile'>Аккаунт  <img src={account} alt="account icon" className="account__icon" />
+                </NavLink>
               </div>
             </div>
           </div>

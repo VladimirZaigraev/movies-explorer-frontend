@@ -10,7 +10,8 @@ export const SearchForm = () => {
         <input
           className="search__input input"
           type="search"
-          placeholder="Фильм" />
+          placeholder="Фильм"
+          required />
         <button
           className="search__button search-button">
         </button>
