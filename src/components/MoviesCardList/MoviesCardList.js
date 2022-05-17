@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import './MoviesCardList.sass'
 import { MoviesCard } from '../MoviesCard/MoviesCard'
-import * as beatfilmMovies from '../../utils/beatfilmMovies.js'
+import * as MoviesApi from '../../utils/MoviesApi.js'
 
 export const MoviesCardList = () => {
   const countMovies = 7;
   const [movies, setMovies] = useState([]);
   const [counter, setCounter] = useState(countMovies);
   useEffect(() => {
-    beatfilmMovies.getMovies()
+    MoviesApi.getMovies()
       .then((movie) => {
         setMovies(movie)
       })

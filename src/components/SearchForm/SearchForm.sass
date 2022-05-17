@@ -2,7 +2,7 @@
 
 .search-form
   box-sizing: border-box
-  padding: 77px 0 85px
+  padding: 77px 0 70px
   border-bottom: 1px solid #AAAAAA
   display: flex
   justify-content: space-between
@@ -20,14 +20,13 @@
   &__input
     display: block
     box-sizing: border-box
-    // height: 42px
-    // opacity: 0.2
     border: 1.5px solid #AAAAAA
     border-radius: 50px
-    padding: 11px 80px 12px 20px
+    padding: 12px 80px 12px 20px
     background-color: inherit
     width: calc(100% - 80px)
     margin-right: 10px
+    margin-bottom: 18px
     color: #ffffff
   &__input::placeholder
     @include text-14
@@ -44,16 +43,15 @@
     bottom: 6px
     background-image: url('../../images/search.svg')
     background-repeat: no-repeat
-    // background-size: 30%
     background-position: 50% 50%
     transition: all 0.3s linear
     &:hover
       opacity: 0.6
-      // background-size: 27%
 
 .short-film
   display: flex
   align-items: center
+  margin-bottom: 18px
   &__text
     @include text-13
     margin: 0
@@ -64,7 +62,7 @@
   .search-form
     flex-direction: column
     width: 100%
-    padding: 57px 0 55px
+    padding: 57px 0 37px
   .search
     width: 100%
     margin-bottom: 38px
@@ -75,7 +73,7 @@
 
 @media (max-width: 582px)
   .search-form
-    padding: 57px 0 44px
+    padding: 57px 0 26px
   .search
     margin-bottom: 45px
     &__input
