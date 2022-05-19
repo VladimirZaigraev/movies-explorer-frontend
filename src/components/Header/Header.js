@@ -5,16 +5,14 @@ import { Navigation } from '../Navigation/Navigation'
 import { SignNavbar } from '../SignNavbar/SignNavbar'
 import './Header.sass'
 
-export const Header = ({ isLogin }) => {
-
-  const bagColor = isLogin ? '#202020' : '#073042'
+export const Header = ({ isLoggedIn }) => {
 
   return (
-    <header className='header' style={{ backgroundColor: bagColor }} >
+    <header className='header' >
       < div className="header__wrapper" >
         <Logo />
         {
-          isLogin ? <Navigation /> : <SignNavbar />
+          isLoggedIn ? <Navigation /> : <SignNavbar />
         }
       </div >
     </header >
