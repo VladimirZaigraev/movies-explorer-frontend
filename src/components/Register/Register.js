@@ -6,15 +6,20 @@ import './Register.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Register = () => {
+export const Register = ({ onRegister }) => {
   const name = useInput('')
   const email = useInput('')
   const password = useInput('')
 
-  console.log(name, email, password)
+  // console.log(name, email, password)
   const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value })
-  const passwordValidation = useValidation(password.value, { minLength: 6 })
-  const nameValidation = useValidation(name.value, { minLength: 3 })
+  const passwordValidation = useValidation(password.value, { minLength: 8 })
+  const nameValidation = useValidation(name.value, { minLength: 3, isName: name.value })
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onRegister(name.value, email.value, password.value);
+  };
 
   return (
     <section className="register">
@@ -22,7 +27,7 @@ export const Register = () => {
         <div className="register__wrapper">
           <Logo />
           <h3 className="register__title">Добро пожаловать!</h3>
-          <form action="" className="form register__form">
+          <form className="form register__form" onSubmit={handleSubmit}>
             <fieldset className="form__fieldset name">
               <label className="form__label " htmlFor="name">Имя</label>
               <input
@@ -38,7 +43,7 @@ export const Register = () => {
                 minLength="3"
                 maxLength="30"
                 autoComplete="off" />
-              <span className="form__input-erorr" id="name-error">{nameValidation.minLengthErrorMessage}</span>
+              <span className="form__input-erorr" id="name-error">{nameValidation.minLengthErrorMessage} {nameValidation.nameErrorMessage}</span>
             </fieldset>
             <fieldset className="form__fieldset e-mail">
               <label className="form__label " htmlFor="e-mail">E-mail</label>
@@ -78,7 +83,7 @@ export const Register = () => {
           </form>
           <p className="register__text redirect">
             Уже зарегистрированы?&nbsp;
-            <Link to="sign-in" className="register__link redirect__link link">Войти</Link>
+            <Link to="/signin" className="register__link redirect__link link">Войти</Link>
           </p>
         </div>
       </div>
