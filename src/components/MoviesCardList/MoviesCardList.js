@@ -2,18 +2,10 @@
 import React, { useState, useEffect } from 'react'
 import './MoviesCardList.sass'
 import { MoviesCard } from '../MoviesCard/MoviesCard'
-import * as MoviesApi from '../../utils/MoviesApi.js'
 
-export const MoviesCardList = () => {
+export const MoviesCardList = ({ movies, setMovies }) => {
   const countMovies = 7;
-  const [movies, setMovies] = useState([]);
   const [counter, setCounter] = useState(countMovies);
-  useEffect(() => {
-    MoviesApi.getMovies()
-      .then((movie) => {
-        setMovies(movie)
-      })
-  }, [])
 
   const plusCounter = () => {
     const newCounter = counter + counter;
@@ -25,7 +17,6 @@ export const MoviesCardList = () => {
       <ul className="cards__list list">
         {
           movies.slice(0, counter).map((movie) => {
-            // console.log(movie.trailerLink)
             return (
               < MoviesCard
                 key={movie.id}

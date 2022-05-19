@@ -4,7 +4,7 @@ import './AboutProject.sass';
 
 export const AboutProject = () => {
   return (
-    <section className='section section___about-project about-project'>
+    <section id="about-project" className='section section___about-project about-project'>
       <div className="container">
         <h3 className="about-project__title">О проекте</h3>
         <ul className="about-project__info info list">

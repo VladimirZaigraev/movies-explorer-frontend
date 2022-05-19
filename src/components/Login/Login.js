@@ -11,7 +11,7 @@ export const Login = () => {
   const password = useInput('')
 
   const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value })
-  const passwordValidation = useValidation(password.value, { minLength: 6 })
+  const passwordValidation = useValidation(password.value, { minLength: 8 })
 
   return (
     <section className="login">
@@ -60,7 +60,7 @@ export const Login = () => {
           </form>
           <p className="login__text redirect">
             Ещё не зарегистрированы?&nbsp;
-            <Link to="sign-in" className="login__link redirect__link link">Регистрация</Link>
+            <Link to="/signup" className="login__link redirect__link link">Регистрация</Link>
           </p>
         </div>
       </div>
