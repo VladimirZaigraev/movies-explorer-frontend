@@ -24,6 +24,7 @@ export const register = (name, email, password) => {
 
 // авторизация /signin
 export const authorize = (email, password, token) => {
+  console.log(email, password, token)
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers
@@ -48,7 +49,7 @@ export const checkToken = (token) => {
 };
 
 // получение сохарненных фильмов /movies/
-export const getMovises = (token) => {
+export const getSaveMovies = (token) => {
   return fetch(`${BASE_URL}/movies`, {
     method: 'GET',
     headers: {
@@ -85,9 +86,9 @@ export const deleteMovie = (cardId, token) => {
     .then(this._checkResult);
 }
 
-export const showError = (err, text) => {
+export const showError = (err) => {
   console.groupCollapsed('%c Auth error', 'color: red')
-  console.log(err, text)
+  console.log(err)
   console.groupEnd()
 }
 

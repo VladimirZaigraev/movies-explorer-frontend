@@ -1,15 +1,17 @@
 // Profile — компонент страницы изменения профиля.
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header/Header';
+import { CurrentUserContext } from '../../context/CurrentUserContext'
 import './Profile.sass'
 
-export const Profile = () => {
+export const Profile = ({ isLoggedIn, onSignOut }) => {
+  const currentUser = useContext(CurrentUserContext);
   const [edit, setEdit] = useState(false);
 
   return (
     <>
-      <Header isLogin={true} />
+      <Header isLoggedIn={isLoggedIn} />
       <section className="profile">
         <div className="container profile__container">
           <div className="profile__wrapper">
@@ -58,15 +60,15 @@ export const Profile = () => {
               ) : (
                 <div className="profile__user user">
                   <h3 className="profile__title">
-                    Привет, Виталий!
+                    Привет, {currentUser.name}
                   </h3>
                   <div className="user__info">
                     <p className="user__title">Имя</p>
-                    <p className="user__data">Виталий</p>
+                    <p className="user__data">{currentUser.name}</p>
                   </div>
                   <div className="user__info">
                     <p className="user__title">E-mail</p>
-                    <p className="user__data">pochta@yandex.ru</p>
+                    <p className="user__data">{currentUser.email}</p>
                   </div>
                 </div>
               )
@@ -75,7 +77,9 @@ export const Profile = () => {
               {
                 (!edit ? <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button> : '')
               }
-              <Link className="profile__logout link" to="/">Выйти из аккаунта</Link>
+              <Link className="profile__logout link"
+                onClick={onSignOut}
+                to="/">Выйти из аккаунта</Link>
             </div>
           </div>
         </div>

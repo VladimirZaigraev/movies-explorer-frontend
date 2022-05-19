@@ -6,14 +6,17 @@ import { MoviesCardList } from '../MoviesCardList/MoviesCardList'
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 
-export const SavedMovies = () => {
+export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies }) => {
   return (
     <>
-      <Header isLogin={true} />
+      <Header isLoggedIn={isLoggedIn} />
       <section className="movies">
-        <div className=" container movies__container">
+        <div className="container movies__container">
           <SearchForm />
-          <MoviesCardList />
+          <MoviesCardList
+            movies={saveMovies}
+            setMovies={setSaveMovies}
+          />
         </div>
       </section>
       <Footer />

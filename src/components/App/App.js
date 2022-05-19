@@ -8,18 +8,21 @@ import { Login } from '../Login/Login';
 import { Register } from '../Register/Register'
 import { Profile } from '../Profile/Profile';
 import { Error } from '../Error/Error';
+import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute'
 import './App.sass';
 import * as MoviesApi from '../../utils/MoviesApi.js'
 import * as MainApi from '../../utils/MainApi.js'
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
-  // const history = useNavigate();
+  let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState();
+  const [isEmail, setEmail] = useState('')
   const [movies, setMovies] = useState([]);
   const [saveMovies, setSaveMovies] = useState([]);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [infoToolTipData, setInfoToolTipData] = useState({});
+  console.log(currentUser)
 
   useEffect(() => {
     MoviesApi.getMovies()
@@ -35,52 +38,103 @@ function App() {
       .then((email) => {
         if (email) {
           setLoggedIn(true);
-          setInfoToolTipData({
-            icon: true,
-            message: "Вы успешно зарегистрировались!"
-          });
-          // history.push("/sign-in");
+          navigate("/signin");
         }
       })
       .catch((err) => {
-        setInfoToolTipData({
-          icon: false,
-          message: "Что-то пошло не так! Попробуйте ещё раз.",
-        });
-        if (err === "Ошибка: 400")
-          MainApi.showError(err, " некорректно заполнено одно из полей ");
+        // console.log(err.json)
+        MainApi.showError(err);
       })
-      .finally(() => setIsInfoTooltipOpen(true))
+    //.finally(())
+  }
+
+  // авторизация пользователя
+  const onLogin = (email, password) => {
+    return MainApi
+      .authorize(email, password, localStorage.getItem('token'))
+      .then((res) => {
+        console.log(res)
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          setLoggedIn(true);
+          MainApi.checkToken(res.token)
+            .then((res) => {
+              setEmail(res.user.email);
+              setCurrentUser(res.user);
+              navigate("/movies");
+            })
+          MainApi.getSaveMovies(res.token)
+            .then((res) => {
+              setSaveMovies(res.movies);
+            })
+          navigate("/movies");
+        }
+      })
+      .catch((err) => {
+        // if (err === "Ошибка: 400") {
+        //   auth.showError(err, "не передано одно из полей");
+        // } else if (err === "Ошибка: 401") {
+        //   auth.showError(err, "Пользователь с данным email не найден");
+        // }
+      });
+  }
+
+  const onSignOut = () => {
+    localStorage.removeItem('token');
+    setCurrentUser({})
+    setLoggedIn(false);
+    setEmail("");
+    navigate("/signin");
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
-        <BrowserRouter>
-          <Routes>
-            <Route exact path="/" element={<Main />} />
 
-            <Route path="/movies" element={
+        <Routes>
+          <Route exact path="/" element={<Main isLoggedIn={isLoggedIn} />} />
+
+          <Route path="/movies" element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Movies
+                isLoggedIn={isLoggedIn}
                 movies={movies}
                 setMovies={setMovies}
-              />} />
+              />
+            </ProtectedRoute>
+          } />
 
-            <Route path="/saved-movies" element={<SavedMovies />} />
+          <Route path="/saved-movies" element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <SavedMovies
+                isLoggedIn={isLoggedIn}
+                saveMovies={saveMovies}
+                setSaveMovies={setSaveMovies}
+              />
+            </ProtectedRoute>
+          } />
 
-            <Route path="/signin" element={<Login />} />
+          <Route path="/profile" element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Profile
+                isLoggedIn={isLoggedIn}
+                onSignOut={onSignOut} />
+            </ProtectedRoute>
 
-            <Route path="/signup" element={
-              <Register
-                onRegister={onRegister} />}
-            />
+          } />
 
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/signin" element={
+            <Login
+              onLogin={onLogin} />} />
 
-            <Route path="*" element={<Error />} />
+          <Route path="/signup" element={
+            <Register
+              onRegister={onRegister} />}
+          />
 
-          </Routes>
-        </BrowserRouter>
+          <Route path="*" element={<Error />} />
+
+        </Routes>
 
       </div >
     </CurrentUserContext.Provider>

@@ -6,12 +6,18 @@ import './Login.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Login = () => {
+export const Login = ({ onLogin }) => {
   const email = useInput('')
   const password = useInput('')
 
   const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value })
   const passwordValidation = useValidation(password.value, { minLength: 8 })
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onLogin(email.value, password.value);
+    // console.log(email.value, password.value)
+  };
 
   return (
     <section className="login">
@@ -19,7 +25,7 @@ export const Login = () => {
         <div className="login__wrapper">
           <Logo />
           <h3 className="login__title">Рады видеть!</h3>
-          <form action="" className="form login__form">
+          <form action="" className="form login__form" onSubmit={handleSubmit}>
             <fieldset className="form__fieldset e-mail">
               <label className="form__label " htmlFor="email">E-mail</label>
               <input

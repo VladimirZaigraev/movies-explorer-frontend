@@ -6,10 +6,10 @@ import { MoviesCardList } from '../MoviesCardList/MoviesCardList'
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 
-export const Movies = ({ movies, setMovies }) => {
+export const Movies = ({ isLoggedIn, movies, setMovies }) => {
   return (
     <>
-      <Header isLogin={true} />
+      <Header isLoggedIn={isLoggedIn} />
       <section className="movies">
         <div className="container movies__container">
           <SearchForm />

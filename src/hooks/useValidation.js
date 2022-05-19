@@ -67,7 +67,7 @@ export const useValidation = (value, validations) => {
     }
   }, [value]);
   // console.log('minLengthError', minLengthError)
-  console.log('nameError', nameError)
+  // console.log('nameError', nameError)
 
   useEffect(() => {
     if (minLengthError || emailError || nameError) {
@@ -76,7 +76,7 @@ export const useValidation = (value, validations) => {
       setValid(false)
     }
   }, [minLengthError, emailError, nameError])
-  console.log('isValid', isValid)
+  // console.log('isValid', isValid)
 
   return {
     minLengthErrorMessage,
