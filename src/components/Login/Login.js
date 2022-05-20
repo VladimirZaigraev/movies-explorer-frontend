@@ -1,17 +1,17 @@
 //Login — компонент страницы авторизации.
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../Logo/Logo'
 import './Login.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Login = ({ onLogin }) => {
+export const Login = ({ onLogin, errorServerMessage }) => {
   const email = useInput('')
   const password = useInput('')
 
-  const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value })
-  const passwordValidation = useValidation(password.value, { minLength: 8 })
+  const emailValidation = useValidation(email.value, { minLength: 3, maxLength: 30, isEmail: email.value })
+  const passwordValidation = useValidation(password.value, { minLength: 8, maxLength: 30 })
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +25,7 @@ export const Login = ({ onLogin }) => {
         <div className="login__wrapper">
           <Logo />
           <h3 className="login__title">Рады видеть!</h3>
-          <form action="" className="form login__form" onSubmit={handleSubmit}>
+          <form action="" className="form login__form login-form" onSubmit={handleSubmit}>
             <fieldset className="form__fieldset e-mail">
               <label className="form__label " htmlFor="email">E-mail</label>
               <input
@@ -62,7 +62,10 @@ export const Login = ({ onLogin }) => {
               />
               <span className="form__input-erorr" id="password-error">{passwordValidation.minLengthErrorMessage}</span>
             </fieldset>
-            <button disabled={!emailValidation.isValid || !passwordValidation.isValid} className="form__button login__button">Войти</button>
+            <div className="form__footer login-form__footer">
+              <span className="form__error-server">{errorServerMessage}</span>
+              <button disabled={!emailValidation.emailError || !emailValidation.minLengthError || !passwordValidation.minLengthError} className="form__button login__button">Войти</button>
+            </div>
           </form>
           <p className="login__text redirect">
             Ещё не зарегистрированы?&nbsp;

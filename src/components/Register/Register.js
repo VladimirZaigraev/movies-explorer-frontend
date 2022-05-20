@@ -6,7 +6,7 @@ import './Register.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Register = ({ onRegister }) => {
+export const Register = ({ onRegister, errorServerMessage }) => {
   const name = useInput('')
   const email = useInput('')
   const password = useInput('')
@@ -79,7 +79,10 @@ export const Register = ({ onRegister }) => {
                 autoComplete="off" />
               <span className="form__input-erorr" id="password-error">{passwordValidation.minLengthErrorMessage}</span>
             </fieldset>
-            <button disabled={!emailValidation.isValid || !passwordValidation.isValid || !nameValidation.isValid} className="form__button">Зарегестрироваться</button>
+            <div className="form__footer">
+              <span className="form__error-server">{errorServerMessage}</span>
+              <button disabled={!nameValidation.nameError || !nameValidation.minLengthError || !emailValidation.emailError || !emailValidation.minLengthError || !passwordValidation.minLengthError} className="form__button">Зарегестрироваться</button>
+            </div>
           </form>
           <p className="register__text redirect">
             Уже зарегистрированы?&nbsp;

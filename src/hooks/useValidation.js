@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export const useValidation = (value, validations) => {
 
@@ -11,15 +11,12 @@ export const useValidation = (value, validations) => {
   const [nameError, setNameError] = useState(false)
   const [nameErrorMessage, setNameErrorMessage] = useState('')
 
-  const [isValid, setValid] = useState(false)
-
   useEffect(() => {
     for (const validation in validations) {
-      // console.log(validation)
       switch (validation) {
         case 'minLength':
           if (value.length > 0) {
-            if (value.length < validations[validation]) {
+            if (value.length <= validations[validation]) {
               setMinLengthError(false)
               setMinLengthErrorMessage(`Введите больше символов. Минимальное значение ${validations[validation]}`)
             } else {
@@ -33,10 +30,8 @@ export const useValidation = (value, validations) => {
           break;
         case 'isEmail':
           const MAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          // console.log(value)
-          if (value.length > 3) {
+          if (value.length >= 3) {
             if (MAIL_REGEX.test(String(value).toLowerCase())) {
-              // console.log('test string', re.test(String(value).toLowerCase()))
               setEmailErrorMessage('')
               setEmailError(true)
             } else {
@@ -47,7 +42,6 @@ export const useValidation = (value, validations) => {
             setEmailErrorMessage('')
             setEmailError(false)
           }
-
           break;
         case 'isName':
           const NAME_REGEX = /^[a-zA-Zа-яА-Я\-\ ]+$/;
@@ -68,20 +62,14 @@ export const useValidation = (value, validations) => {
   }, [value]);
   // console.log('minLengthError', minLengthError)
   // console.log('nameError', nameError)
-
-  useEffect(() => {
-    if (minLengthError || emailError || nameError) {
-      setValid(true)
-    } else {
-      setValid(false)
-    }
-  }, [minLengthError, emailError, nameError])
-  // console.log('isValid', isValid)
+  // console.log('emailError', emailError)
 
   return {
     minLengthErrorMessage,
     emailErrorMessage,
     nameErrorMessage,
-    isValid
+    minLengthError,
+    nameError,
+    emailError
   }
 }
