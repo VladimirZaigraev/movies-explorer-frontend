@@ -48,6 +48,18 @@ export const checkToken = (token) => {
   }).then(checkResult);
 };
 
+export const editProfile = (name, email, token) => {
+  // console.log(name, email, token)
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, email }),
+  }).then(checkResult);
+}
+
 // получение сохарненных фильмов /movies/
 export const getSaveMovies = (token) => {
   return fetch(`${BASE_URL}/movies`, {
@@ -57,11 +69,11 @@ export const getSaveMovies = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-    .then(this._checkResult);
+    .then(checkResult);
 }
 
 // добавление фильма
-export const addMovie = (newMovie, token) => {
+export const addSaveMovie = (newMovie, token) => {
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {
@@ -72,23 +84,23 @@ export const addMovie = (newMovie, token) => {
       newMovie // ??
     }),
   })
-    .then(this._checkResult);
+    .then(checkResult);
 }
 
 // удаление фильма из базы
-export const deleteMovie = (cardId, token) => {
+export const deleteSaveMovie = (cardId, token) => {
   return fetch(`${this._baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: {
       'Authorization': `Bearer ${token}`,
     },
   })
-    .then(this._checkResult);
+    .then(checkResult);
 }
 
-export const showError = (err) => {
+export const showError = (err, text) => {
   console.groupCollapsed('%c Auth error', 'color: red')
-  console.log(err)
+  console.log(err, text)
   console.groupEnd()
 }
 

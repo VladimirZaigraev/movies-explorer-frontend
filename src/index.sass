@@ -73,7 +73,17 @@ code
       height: 10px
       font-weight: 400
       color: #EE3465
-
+  &__footer
+    margin: 54px 0 14px 0
+    position: relative
+    padding-top: 20px
+  &__error-server
+    position: absolute
+    top: 0
+    margin: 0
+    padding: 0
+    @include text-10
+    color: #EE3465
   &__button
     width: 100%
     height: 45px
@@ -81,7 +91,6 @@ code
     @include bg-ligth-blue
     @include text-14
     border-radius: 3px
-    margin: 74px 0 14px 0
   &__button:disabled
     @include bg-gray
 
@@ -102,8 +111,10 @@ code
   .container
     max-width: 89%
   .form
+    &__footer
+      margin: 20.6vh 0 14px 0
     &__button
       @include text-12
-      margin: 20.6vh 0 14px 0
+
   .redirect
     @include text-12

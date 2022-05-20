@@ -1,13 +1,43 @@
 // Profile — компонент страницы изменения профиля.
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header/Header';
+import { useInput } from '../../hooks/useInput'
+import { useValidation } from '../../hooks/useValidation'
 import { CurrentUserContext } from '../../context/CurrentUserContext'
 import './Profile.sass'
 
-export const Profile = ({ isLoggedIn, onSignOut }) => {
+export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, errorServerMessage, chekStatusErrorServer }) => {
   const currentUser = useContext(CurrentUserContext);
   const [edit, setEdit] = useState(false);
+
+  const name = useInput('');
+  const email = useInput('');
+
+  const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value });
+  const nameValidation = useValidation(name.value, {
+    minLength: 3, isName: name.value
+  });
+  // console.log(chekStatusErrorServer)
+  useEffect(() => {
+    if (errorServerMessage.length > 0) {
+      setEdit(true)
+    } else {
+      setEdit(false)
+    }
+  }, [errorServerMessage]);
+
+  console.log(errorServerMessage)
+
+  console.log(edit)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(event)
+    onEditProfile(name.value, email.value);
+    // setEdit(false)
+  };
+
+
 
   return (
     <>
@@ -21,12 +51,13 @@ export const Profile = ({ isLoggedIn, onSignOut }) => {
                   <h3 className="profile__title">
                     Внесите новые данные
                   </h3>
-                  <form action="" className="form edit__form">
+                  <form className="form edit__form" onSubmit={handleSubmit}>
                     <fieldset className="form__fieldset name">
                       <label className="form__label " htmlFor="name">Имя</label>
                       <input
-                        // value={''}
-                        // onBlur={''}
+                        value={name.value}
+                        onBlur={event => name.onBlur(event)}
+                        onChange={event => name.onChange(event)}
                         type="text"
                         className="form__input"
                         id="name"
@@ -36,13 +67,14 @@ export const Profile = ({ isLoggedIn, onSignOut }) => {
                         minLength="3"
                         maxLength="30"
                         autoComplete="off" />
-                      <span className="form__input-erorr" id="name-error">Текст ошибки</span>
+                      <span className="form__input-erorr" id="name-error">{nameValidation.minLengthErrorMessage} {nameValidation.nameErrorMessage}</span>
                     </fieldset>
                     <fieldset className="form__fieldset e-mail">
                       <label className="form__label " htmlFor="e-mail">E-mail</label>
                       <input
-                        // value={''}
-                        // onBlur={''}
+                        value={email.value}
+                        onBlur={event => email.onBlur(event)}
+                        onChange={event => email.onChange(event)}
                         type="text"
                         className="form__input"
                         id="e-mail"
@@ -52,9 +84,12 @@ export const Profile = ({ isLoggedIn, onSignOut }) => {
                         minLength="3"
                         maxLength="30"
                         autoComplete="off" />
-                      <span className="form__input-erorr" id="e-mail-error">Текст ошибки</span>
+                      <span className="form__input-erorr" id="e-mail-error">{emailValidation.emailErrorMessage} {emailValidation.minLengthErrorMessage} </span>
                     </fieldset>
-                    <button className="form__button edit__button" onClick={() => setEdit(!edit)}>Сохранить</button>
+                    <div className="form__footer">
+                      <span className="form__error-server">{errorServerMessage}</span>
+                      <button className="form__button edit__button" disabled={!emailValidation.emailError || !emailValidation.minLengthError || !nameValidation.minLengthError} type="submit">Сохранить</button>
+                    </div>
                   </form>
                 </div>
               ) : (
@@ -75,7 +110,7 @@ export const Profile = ({ isLoggedIn, onSignOut }) => {
             }
             <div className="profile__footer">
               {
-                (!edit ? <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button> : '')
+                (!edit ? <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button> : <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Отменить редактирование</button>)
               }
               <Link className="profile__logout link"
                 onClick={onSignOut}
