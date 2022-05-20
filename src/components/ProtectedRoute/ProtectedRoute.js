@@ -1,17 +1,9 @@
 import React from 'react';
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-export const ProtectedRoute = ({ isLoggedIn, children }) => {
-  console.log('loggedIn', isLoggedIn)
-  // console.log('component', component)
+export const ProtectedRoute = ({ isLoggedIn, children, navigate }) => {
+  console.log('ProtectedRoute', isLoggedIn)
   return (
-    isLoggedIn ? children : < Navigate replace to="/signin" />
+    isLoggedIn ? children : < Navigate replace to={navigate} />
   )
 }
-
-{/* <Route path="/profile" element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Profile
-                onSignOut={onSignOut} />
-            </ProtectedRoute>
-          } /> */}
