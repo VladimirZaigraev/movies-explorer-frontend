@@ -7,7 +7,7 @@ import { useValidation } from '../../hooks/useValidation'
 import { CurrentUserContext } from '../../context/CurrentUserContext'
 import './Profile.sass'
 
-export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, errorServerMessage, chekStatusErrorServer }) => {
+export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, chekStatusErrorServer }) => {
   const currentUser = useContext(CurrentUserContext);
   const [edit, setEdit] = useState(false);
 
@@ -19,15 +19,15 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, errorServerMessa
     minLength: 3, isName: name.value
   });
   // console.log(chekStatusErrorServer)
-  useEffect(() => {
-    if (errorServerMessage.length > 0) {
-      setEdit(true)
-    } else {
-      setEdit(false)
-    }
-  }, [errorServerMessage]);
+  // useEffect(() => {
+  //   if (chekStatusErrorServer) {
+  //     setEdit(true)
+  //   } else {
+  //     setEdit(false)
+  //   }
+  // }, [chekStatusErrorServer]);
 
-  console.log(errorServerMessage)
+  // console.log(errorServerMessage)
 
   console.log(edit)
   const handleSubmit = (event) => {
@@ -87,7 +87,7 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, errorServerMessa
                       <span className="form__input-erorr" id="e-mail-error">{emailValidation.emailErrorMessage} {emailValidation.minLengthErrorMessage} </span>
                     </fieldset>
                     <div className="form__footer">
-                      <span className="form__error-server">{errorServerMessage}</span>
+                      <span className={"form__server-message server-message " + (chekStatusErrorServer ? " server-message__error" : "server-message__success")} >{serverMessage}</span>
                       <button className="form__button edit__button" disabled={!emailValidation.emailError || !emailValidation.minLengthError || !nameValidation.minLengthError} type="submit">Сохранить</button>
                     </div>
                   </form>

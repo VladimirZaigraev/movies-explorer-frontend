@@ -23,14 +23,13 @@ export const register = (name, email, password) => {
 };
 
 // авторизация /signin
-export const authorize = (email, password, token) => {
-  console.log(email, password, token)
+export const authorize = (email, password) => {
+  // console.log(email, password)
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers
       : {
       ...headers,
-      Authorization: `Bearer ${token}`,
     }
     ,
     body: JSON.stringify({ email, password }),

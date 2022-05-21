@@ -6,7 +6,7 @@ import './Register.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Register = ({ onRegister, errorServerMessage }) => {
+export const Register = ({ onRegister, serverMessage, chekStatusErrorServer }) => {
   const name = useInput('')
   const email = useInput('')
   const password = useInput('')
@@ -20,6 +20,8 @@ export const Register = ({ onRegister, errorServerMessage }) => {
     event.preventDefault();
     onRegister(name.value, email.value, password.value);
   };
+
+  console.log('chekStatusErrorServer', chekStatusErrorServer)
 
   return (
     <section className="register">
@@ -80,7 +82,7 @@ export const Register = ({ onRegister, errorServerMessage }) => {
               <span className="form__input-erorr" id="password-error">{passwordValidation.minLengthErrorMessage}</span>
             </fieldset>
             <div className="form__footer">
-              <span className="form__error-server">{errorServerMessage}</span>
+              <span className={"form__server-message server-message " + (chekStatusErrorServer ? " server-message__error" : "server-message__success")} >{serverMessage}</span>
               <button disabled={!nameValidation.nameError || !nameValidation.minLengthError || !emailValidation.emailError || !emailValidation.minLengthError || !passwordValidation.minLengthError} className="form__button">Зарегестрироваться</button>
             </div>
           </form>
@@ -89,7 +91,7 @@ export const Register = ({ onRegister, errorServerMessage }) => {
             <Link to="/signin" className="register__link redirect__link link">Войти</Link>
           </p>
         </div>
-      </div>
-    </section>
+      </div >
+    </section >
   )
 }

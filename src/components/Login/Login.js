@@ -6,7 +6,7 @@ import './Login.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const Login = ({ onLogin, errorServerMessage }) => {
+export const Login = ({ onLogin, serverMessage, chekStatusErrorServer }) => {
   const email = useInput('')
   const password = useInput('')
 
@@ -63,7 +63,7 @@ export const Login = ({ onLogin, errorServerMessage }) => {
               <span className="form__input-erorr" id="password-error">{passwordValidation.minLengthErrorMessage}</span>
             </fieldset>
             <div className="form__footer login-form__footer">
-              <span className="form__error-server">{errorServerMessage}</span>
+              <span className={"form__server-message server-message " + (chekStatusErrorServer ? " server-message__error" : "server-message__success")} >{serverMessage}</span>
               <button disabled={!emailValidation.emailError || !emailValidation.minLengthError || !passwordValidation.minLengthError} className="form__button login__button">Войти</button>
             </div>
           </form>
