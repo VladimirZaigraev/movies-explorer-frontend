@@ -2,43 +2,38 @@
 import React, { useState } from 'react'
 import { Checkbox } from '../Checkbox/Checkbox'
 import './SearchForm.sass'
+import { useInput } from '../../hooks/useInput'
+import { useValidation } from '../../hooks/useValidation'
 
-export const SearchForm = () => {
+export const SearchForm = ({ handleFilm, short, setShort }) => {
+  const search = useInput('')
+  const searchValidation = useValidation(search.value, { minLength: 2 })
 
-  const [search, setSearch] = useState('');
-  const [isValid, setValidity] = useState(false);
-  const [error, setError] = useState('');
-  const [short, setShort] = useState(true);
-  console.log(short)
+  // console.log(short)
 
-  const changeHandlerSearch = (event) => {
-    const input = event.target
-    setSearch(input.value)
-    setValidity(input.validity.valid)
-    if (!isValid) {
-      setError(input.validationMessage)
-    } else {
-      setError('')
-    }
-    console.log(search)
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleFilm(search.value, short)
+  };
+
   return (
-    <form className="search-form" type="submit">
+    <form className="search-form" type="submit" onSubmit={handleSubmit}>
       <fieldset className="search-form__search search">
         <input
           className="search__input input"
           type="search"
           placeholder="Фильм"
-          value={search}
+          value={search.value}
+          onBlur={event => search.onBlur(event)}
+          onChange={event => search.onChange(event)}
           required
-          onChange={changeHandlerSearch}
           minLength="2"
           maxLength="30" />
         <button
           className="search__button search-button"
-          disabled={!isValid} >
+          disabled={!searchValidation.minLengthError} >
         </button>
-        <span className="form__input-erorr search-form__error" id="password-error">{error}</span>
+        <span className="form__input-erorr search-form__error" id="password-error">{searchValidation.minLengthErrorMessage}</span>
       </fieldset>
       <div className="search-form__short-film short-film">
         <p className="short-film__text">

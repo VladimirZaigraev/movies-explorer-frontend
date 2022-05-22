@@ -30,7 +30,7 @@ export const useValidation = (value, validations) => {
           break;
         case 'isEmail':
           const MAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          if (value.length >= 3) {
+          if (value.length > 3) {
             if (MAIL_REGEX.test(String(value).toLowerCase())) {
               setEmailErrorMessage('')
               setEmailError(true)

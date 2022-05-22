@@ -1,5 +1,7 @@
 // const BASE_URL = "https://api.zaigraev.nomoredomains.work";
-const BASE_URL = 'http://localhost:3000';
+import { BASE_URL } from '../config/config.js'
+
+
 
 const headers = {
   'Accept': 'application/json',
@@ -73,6 +75,7 @@ export const getSaveMovies = (token) => {
 
 // добавление фильма
 export const addSaveMovie = (newMovie, token) => {
+  console.log('newMovie', newMovie)
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {
@@ -80,7 +83,17 @@ export const addSaveMovie = (newMovie, token) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      newMovie // ??
+      country: `${newMovie.country + ''}`,
+      director: newMovie.director,
+      duration: newMovie.duration,
+      year: newMovie.year,
+      description: newMovie.description,
+      image: newMovie.image.url,
+      trailerLink: newMovie.trailerLink,
+      thumbnail: newMovie.trailerLink,
+      movieId: newMovie.id,
+      nameRU: newMovie.nameRU,
+      nameEN: newMovie.nameEN,
     }),
   })
     .then(checkResult);

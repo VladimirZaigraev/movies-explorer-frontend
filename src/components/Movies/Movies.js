@@ -5,17 +5,23 @@ import { SearchForm } from '../SearchForm/SearchForm'
 import { MoviesCardList } from '../MoviesCardList/MoviesCardList'
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
+import { filterMovies } from '../../utils/helpers'
 
-export const Movies = ({ isLoggedIn, movies, setMovies }) => {
+export const Movies = ({ isLoggedIn, movies, setMovies, handleFilm, short, setShort, addMovie }) => {
+  movies = filterMovies(movies, short)
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <section className="movies">
         <div className="container movies__container">
-          <SearchForm />
+          <SearchForm
+            handleFilm={handleFilm}
+            short={short}
+            setShort={setShort} />
           <MoviesCardList
             movies={movies}
             setMovies={setMovies}
+            addMovie={addMovie}
           />
         </div>
       </section>

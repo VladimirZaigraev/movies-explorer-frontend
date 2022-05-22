@@ -14,6 +14,8 @@ import './App.sass';
 import * as MoviesApi from '../../utils/MoviesApi.js'
 import * as MainApi from '../../utils/MainApi.js'
 
+import { sortMovies } from '../../utils/sortMovies.js'
+
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   let navigate = useNavigate();
@@ -24,9 +26,11 @@ function App() {
   const [chekStatusErrorServer, setChekStatusErrorServer] = useState(false);
 
   const [serverMessage, setServerMessage] = useState('');
-  // const [successServerMessage, setSuccessServerMessage] = useState('')
-  console.log('currentUser', currentUser)
+  const [shortMovie, setShortMovie] = useState(true);
+  const [shortSaveMovie, setShortSaveMovie] = useState(true);
 
+  // console.log('api movies - movies', movies)
+  console.log('api movies - saveMovies', saveMovies)
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -41,6 +45,10 @@ function App() {
           MoviesApi.getMovies()
             .then((movie) => {
               setMovies(movie)
+            })
+          MainApi.getSaveMovies(token)
+            .then((movie) => {
+              setSaveMovies(movie)
             })
         })
         .catch((err) => {
@@ -141,6 +149,27 @@ function App() {
       })
   }
 
+  const handleSearchMovies = (searchMovie, shortMovies) => {
+    let result = sortMovies(movies, searchMovie, shortMovies)
+    // console.log('result', result)
+    setMovies(result)
+  }
+
+  const addMovie = (newMovie) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      MainApi
+        .addSaveMovie(newMovie, token)
+        .then((dataMovie) => {
+          // setSaveMovies([dataMovie.data, ...savedMovies]);
+          console.log(dataMovie);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
@@ -154,6 +183,10 @@ function App() {
                 isLoggedIn={isLoggedIn}
                 movies={movies}
                 setMovies={setMovies}
+                handleFilm={handleSearchMovies}
+                short={shortMovie}
+                setShort={setShortMovie}
+                addMovie={addMovie}
               />
             } />
           </Route>
@@ -164,6 +197,8 @@ function App() {
                 isLoggedIn={isLoggedIn}
                 saveMovies={saveMovies}
                 setSaveMovies={setSaveMovies}
+                short={shortSaveMovie}
+                setShort={setShortSaveMovie}
               />
             } />
           </Route>
