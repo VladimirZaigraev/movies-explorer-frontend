@@ -1,5 +1,5 @@
 // Profile — компонент страницы изменения профиля.
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Header } from '../Header/Header';
 import { useInput } from '../../hooks/useInput'
@@ -7,9 +7,9 @@ import { useValidation } from '../../hooks/useValidation'
 import { CurrentUserContext } from '../../context/CurrentUserContext'
 import './Profile.sass'
 
-export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, chekStatusErrorServer }) => {
+export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, editMessage, chekStatusErrorServer, edit, setEdit }) => {
   const currentUser = useContext(CurrentUserContext);
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
 
   const name = useInput('');
   const email = useInput('');
@@ -18,26 +18,15 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, c
   const nameValidation = useValidation(name.value, {
     minLength: 3, isName: name.value
   });
-  // console.log(chekStatusErrorServer)
-  // useEffect(() => {
-  //   if (chekStatusErrorServer) {
-  //     setEdit(true)
-  //   } else {
-  //     setEdit(false)
-  //   }
-  // }, [chekStatusErrorServer]);
 
-  // console.log(errorServerMessage)
+  const valueRepeat = name.value === currentUser.name && email.value === currentUser.email
 
   console.log(edit)
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event)
     onEditProfile(name.value, email.value);
-    // setEdit(false)
   };
-
-
 
   return (
     <>
@@ -87,8 +76,8 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, c
                       <span className="form__input-erorr" id="e-mail-error">{emailValidation.emailErrorMessage} {emailValidation.minLengthErrorMessage} </span>
                     </fieldset>
                     <div className="form__footer">
-                      <span className={"form__server-message server-message " + (chekStatusErrorServer ? " server-message__error" : "server-message__success")} >{serverMessage}</span>
-                      <button className="form__button edit__button" disabled={!emailValidation.emailError || !emailValidation.minLengthError || !nameValidation.minLengthError} type="submit">Сохранить</button>
+                      {chekStatusErrorServer || valueRepeat ? <span className="form__server-message server-message server-message__error" >{serverMessage}{valueRepeat ? "Новые данные не должны соответвовать сущетсвующим" : ""}</span> : ''}
+                      <button className="form__button edit__button" disabled={!emailValidation.emailError || !emailValidation.minLengthError || !nameValidation.minLengthError || !nameValidation.nameError || valueRepeat} type="submit">Сохранить</button>
                     </div>
                   </form>
                 </div>
@@ -110,7 +99,13 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, c
             }
             <div className="profile__footer">
               {
-                (!edit ? <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button> : <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Отменить редактирование</button>)
+                (!edit ?
+                  <>
+                    <p className="profile__text">{editMessage}</p>
+                    <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Редактировать</button>
+                  </>
+                  :
+                  <button className="profile__edit-btn" onClick={() => setEdit(!edit)}>Отменить редактирование</button>)
               }
               <Link className="profile__logout link"
                 onClick={onSignOut}

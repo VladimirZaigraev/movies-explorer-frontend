@@ -88,7 +88,7 @@ export const addSaveMovie = (newMovie, token) => {
       duration: newMovie.duration,
       year: newMovie.year,
       description: newMovie.description,
-      image: newMovie.image.url,
+      image: `${'https://api.nomoreparties.co' + newMovie.image.url}`,
       trailerLink: newMovie.trailerLink,
       thumbnail: newMovie.trailerLink,
       movieId: newMovie.id,
@@ -100,9 +100,10 @@ export const addSaveMovie = (newMovie, token) => {
 }
 
 // удаление фильма из базы
-export const deleteSaveMovie = (cardId, token) => {
-  return fetch(`${this._baseUrl}/cards/${cardId}`, {
+export const deleteSaveMovie = (delMovie, token) => {
+  return fetch(`${BASE_URL}/movies/${delMovie._id}`, {
     method: 'DELETE',
+    credentials: "include",
     headers: {
       'Authorization': `Bearer ${token}`,
     },
@@ -111,7 +112,7 @@ export const deleteSaveMovie = (cardId, token) => {
 }
 
 export const showError = (err, text) => {
-  console.groupCollapsed('%c Auth error', 'color: red')
+  console.groupCollapsed('%c API error', 'color: red')
   console.log(err, text)
   console.groupEnd()
 }

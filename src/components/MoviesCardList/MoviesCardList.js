@@ -1,9 +1,10 @@
 //MoviesCardList — компонент управляет отрисовкой карточек фильмов на страницу и их количеством.
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './MoviesCardList.sass'
 import { MoviesCard } from '../MoviesCard/MoviesCard'
+import { Preloader } from "../Preloader/Preloader";
 
-export const MoviesCardList = ({ movies, setMovies, addMovie }) => {
+export const MoviesCardList = ({ movies, setMovies, addMovie, deleteMovie, saveMovies, preloader }) => {
   const countMovies = 7;
   const [counter, setCounter] = useState(countMovies);
 
@@ -14,25 +15,33 @@ export const MoviesCardList = ({ movies, setMovies, addMovie }) => {
 
   return (
     <section className="cards">
-      <ul className="cards__list list">
-        {
-          movies.slice(0, counter).map((movie) => {
-            // console.log(movie._id)
-            return (
-              < MoviesCard
-                key={movie._id}
-                myKey={movie._id}
-                movie={movie}
-                nameMovie={movie.nameRU}
-                linkImage={`https://api.nomoreparties.co/${movie.image.url}`}
-                trailerLink={movie.trailerLink}
-                movieDuration={movie.duration}
-                addMovie={addMovie} />
-            )
-          })
-        }
-      </ul>
-      {countMovies < movies.length ? <button className="cards__button" onClick={plusCounter}>Ещё</button> : ''}
+      {preloader ?
+        <Preloader /> :
+        <>
+          {movies.length === 0 && <p className="cards__pargraph">НИЧЕГО НЕ НАЙДЕНО</p>}
+          <ul className="cards__list list">
+            {
+              movies.slice(0, counter).map((movie) => {
+                return (
+                  < MoviesCard
+                    key={movie._id === undefined ? movie.id : movie._id}
+                    key_id={movie._id}
+                    keyId={movie.id}
+                    movie={movie}
+                    nameMovie={movie.nameRU}
+                    linkImage={`https://api.nomoreparties.co/${movie.image.url}`}
+                    trailerLink={movie.trailerLink}
+                    movieDuration={movie.duration}
+                    addMovie={addMovie}
+                    deleteMovie={deleteMovie}
+                    saveMovies={saveMovies} />
+                )
+              })
+            }
+          </ul>
+          {counter < movies.length ? <button className="cards__button" onClick={plusCounter}>Ещё</button> : ''}
+        </>}
+
     </section>
   )
 }

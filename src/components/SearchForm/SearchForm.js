@@ -1,15 +1,28 @@
 //SearchForm — форма поиска, куда пользователь будет вводить запрос.
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Checkbox } from '../Checkbox/Checkbox'
 import './SearchForm.sass'
 import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
 
-export const SearchForm = ({ handleFilm, short, setShort }) => {
+export const SearchForm = ({ handleFilm, short, setShort, setClearInput }) => {
   const search = useInput('')
   const searchValidation = useValidation(search.value, { minLength: 2 })
 
-  // console.log(short)
+  console.log('SearchForm isDirty', search.isDirty)
+  // if (search.isDirty && search.length === 0) {
+  //   setFocusInput(focusInput)
+  // } else {
+  //   setFocusInput(!focusInput)
+  // }
+  useEffect(() => {
+    if (search.value.length === 0) {
+      setClearInput(false)
+      console.log('setClearInput', false)
+    } else {
+      setClearInput(true)
+    }
+  }, [search.value.length]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
