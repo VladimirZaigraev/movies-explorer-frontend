@@ -63,6 +63,7 @@ export const editProfile = (name, email, token) => {
 
 // получение сохарненных фильмов /movies/
 export const getSaveMovies = (token) => {
+  console.log(token)
   return fetch(`${BASE_URL}/movies`, {
     method: 'GET',
     headers: {

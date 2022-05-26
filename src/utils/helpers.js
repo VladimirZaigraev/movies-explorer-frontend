@@ -8,4 +8,5 @@ const filterMovies = (movies, short) => {
   return newMovies;
 }
 
+
 export { filterMovies };

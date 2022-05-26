@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { MAIL_REGEX, NAME_REGEX } from '../config/config';
 
 export const useValidation = (value, validations) => {
 
@@ -29,7 +30,6 @@ export const useValidation = (value, validations) => {
           }
           break;
         case 'isEmail':
-          const MAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
           if (value.length > 3) {
             if (MAIL_REGEX.test(String(value).toLowerCase())) {
               setEmailErrorMessage('')
@@ -44,7 +44,6 @@ export const useValidation = (value, validations) => {
           }
           break;
         case 'isName':
-          const NAME_REGEX = /^[a-zA-Zа-яА-Я\-\ ]+$/;
           if (value.length > 3) {
             if (NAME_REGEX.test(String(value).toLowerCase())) {
               setNameErrorMessage('')
@@ -60,9 +59,6 @@ export const useValidation = (value, validations) => {
       }
     }
   }, [value]);
-  // console.log('minLengthError', minLengthError)
-  // console.log('nameError', nameError)
-  // console.log('emailError', emailError)
 
   return {
     minLengthErrorMessage,

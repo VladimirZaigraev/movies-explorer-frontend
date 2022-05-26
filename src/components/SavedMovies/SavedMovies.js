@@ -5,10 +5,9 @@ import { SearchForm } from '../SearchForm/SearchForm'
 import { MoviesCardList } from '../MoviesCardList/MoviesCardList'
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
-import { Preloader } from "../Preloader/Preloader";
 import { filterMovies } from '../../utils/helpers'
 
-export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm, shortSaveMovie, setShortSaveMovie, deleteMovie, setClearInputSaveMovie, preloader }) => {
+export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm, shortSaveMovie, setShortSaveMovie, deleteMovie, preloader }) => {
 
   let moviesSort = filterMovies(saveMovies, shortSaveMovie)
 
@@ -21,7 +20,7 @@ export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm,
             handleFilm={handleFilm}
             short={shortSaveMovie}
             setShort={setShortSaveMovie}
-            setClearInput={setClearInputSaveMovie} />
+          />
           <MoviesCardList
             movies={moviesSort}
             setMovies={setSaveMovies}

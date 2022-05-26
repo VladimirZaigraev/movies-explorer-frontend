@@ -1,33 +1,65 @@
 //SearchForm — форма поиска, куда пользователь будет вводить запрос.
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Checkbox } from '../Checkbox/Checkbox'
 import './SearchForm.sass'
-import { useInput } from '../../hooks/useInput'
+// import { useInput } from '../../hooks/useInput'
 import { useValidation } from '../../hooks/useValidation'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
 
-export const SearchForm = ({ handleFilm, short, setShort, setClearInput }) => {
-  const search = useInput('')
-  const searchValidation = useValidation(search.value, { minLength: 2 })
+export const SearchForm = ({ handleFilm, short, setShort }) => {
 
-  console.log('SearchForm isDirty', search.isDirty)
-  // if (search.isDirty && search.length === 0) {
-  //   setFocusInput(focusInput)
-  // } else {
-  //   setFocusInput(!focusInput)
-  // }
+  const [search, setSearch] = useState('')
+  const searchValidation = useValidation(search, { minLength: 2 })
+
+  const location = useLocation();
+  const pathName = location.pathname;
+
+  const {
+    value: moviesValue,
+    setValue: setMoviesValue
+  } = useLocalStorage("moviesValue", localStorage.getItem("moviesValue") || '');
+
+  const {
+    value: savedMoviesValue,
+    setValue: setSavedMoviesValue
+  } = useLocalStorage("savedMoviesValue", localStorage.getItem("savedMoviesValue") || '');
+
+  const searchRef = useRef(search);
+
   useEffect(() => {
-    if (search.value.length === 0) {
-      setClearInput(false)
-      console.log('setClearInput', false)
-    } else {
-      setClearInput(true)
+    searchRef.current = search;
+  }, [search]);
+
+  useEffect(() => {
+    if (pathName === "/movies") {
+      console.log("/movies")
+      setMoviesValue(searchRef.current)
+    } else if (pathName === "/saved-movies") {
+      console.log("/saved-movies")
+      setSavedMoviesValue(searchRef.current)
     }
-  }, [search.value.length]);
+  }, [search]);
+
+  useEffect(() => {
+    if (pathName === "/movies") {
+      console.log("/movies")
+      setSearch(moviesValue)
+
+    } else if (pathName === "/saved-movies") {
+      console.log("/saved-movies")
+      setSearch(savedMoviesValue)
+    }
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleFilm(search.value, short)
+    handleFilm(search, short)
   };
+
+  const handelChange = (event) => {
+    setSearch(event.target.value)
+  }
 
   return (
     <form className="search-form" type="submit" onSubmit={handleSubmit}>
@@ -36,9 +68,8 @@ export const SearchForm = ({ handleFilm, short, setShort, setClearInput }) => {
           className="search__input input"
           type="search"
           placeholder="Фильм"
-          value={search.value}
-          onBlur={event => search.onBlur(event)}
-          onChange={event => search.onChange(event)}
+          value={search}
+          onChange={event => handelChange(event)}
           required
           minLength="2"
           maxLength="30" />

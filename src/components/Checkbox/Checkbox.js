@@ -2,8 +2,7 @@ import React from 'react'
 import './Checkbox.sass'
 
 export const Checkbox = ({ short, setShort }) => {
-  console.log('Checkbox', short)
-  const hendelCkick = () => {
+  const hendelClick = () => {
     setShort(short ? false : true)
   }
   return (
@@ -13,7 +12,7 @@ export const Checkbox = ({ short, setShort }) => {
         id="short-film"
         type="checkbox"
         defaultChecked={!short}
-        onClick={hendelCkick} />
+        onClick={hendelClick} />
       <label
         className="checkbox__label"
         htmlFor="short-film">

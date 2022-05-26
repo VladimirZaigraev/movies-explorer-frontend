@@ -17,33 +17,48 @@ import { sortMovies } from '../../utils/sortMovies.js'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 
 function App() {
+  let navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [edit, setEdit] = useState(false);
-  let navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({});
 
-  const [movies, setMovies] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
+  // const [movies, setMovies] = useState([]);
   const [saveMovies, setSaveMovies] = useState([]);
+
   const [chekStatusErrorServer, setChekStatusErrorServer] = useState(false);
 
-  const [clearInputMovie, setClearInputMovie] = useState(true);
-  const [clearInputSaveMovie, setClearInputSaveMovie] = useState(true);
-
+  // const [inputSearchValue, setInputSearchValue] = useState('')
+  // const [inputSearchValueSaveMovie, setInputSearchValueSaveMovie] = useState('')
   const [serverMessage, setServerMessage] = useState('');
   const [editMessage, setEditMessage] = useState('');
 
-  const [shortMovie, setShortMovie] = useState(true);
-  const [shortSaveMovie, setShortSaveMovie] = useState(true);
-
+  // const [lengthInputSearchMovie, setLengthInputSearchMovie] = useState(1);
   const [preloader, setPreloader] = useState(false);
 
-  // const shortMovieStatus = localStorage.getItem("shortMovie") || true;
-  // const shortSaveMovieStatus = localStorage.getItem("shortSaveMovie") || true;
-  // // console.log('shortMovieStatus', shortMovieStatus)
-  // const { value: shortMovie, setValue: setShortMovie } = useLocalStorage("shortMovie", true)
+  const {
+    value: movies,
+    setValue: setMovies
+  } = useLocalStorage("movies", []);
 
-  // const { value: shortSaveMovie, setValue: setShortSaveMovie } = useLocalStorage("shortSaveMovie", true)
-  const test = {}
+  const {
+    value: shortMovie,
+    setValue: setShortMovie
+  } = useLocalStorage("shortMovie", localStorage.getItem("shortMovie") || true);
+
+  const {
+    value: shortSaveMovie,
+    setValue: setShortSaveMovie
+  } = useLocalStorage("shortSaveMovie", localStorage.getItem("shortSaveMovie") || true);
+
+  const {
+    value: resultMovies,
+    setValue: setResultMovies
+  } = useLocalStorage("resultMovies", localStorage.getItem("resultMovies") || []);
+
+  const {
+    value: resultSaveMovies,
+    setValue: setResultSaveMovies
+  } = useLocalStorage("resultSaveMovies", localStorage.getItem("resultSaveMovies") || []);
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -52,53 +67,47 @@ function App() {
       setPreloader(true);
       MainApi.checkToken(token)
         .then((res) => {
-          // console.log(res)
           setCurrentUser({
             name: res.user.name,
             email: res.user.email
           });
-          MoviesApi.getMovies()
-            .then((movie) => {
-              setMovies(movie)
-              test = movie
-            })
-            .catch((err) => {
-              MainApi.showError(err, "При загрузке фильмов произошла ошибка");
-            })
-          MainApi.getSaveMovies(token)
-            .then((movie) => {
-              setSaveMovies(movie)
-            })
-            .catch((err) => {
-              MainApi.showError(err, "При загрузке фильмов произошла ошибка");
-            })
         })
         .catch((err) => {
-          MainApi.showError(err, "При загрузке страницы произошла ошибка");
+          MainApi.showError(err, "При загрузке данных пользователя произошла ошибка");
         })
         .finally(() => {
           setPreloader(false);
         });
+      // setMovies(JSON.parse(localStorage.getItem("resultMovies")) || movies)
+      console.log('resultMovies', resultMovies)
     } else {
       setLoggedIn(false)
     }
   }, [])
 
-  // Эффект сохранения положения тумблера
   useEffect(() => {
-    localStorage.setItem("shortMovie", shortMovie);
-  }, [shortMovie]);
+    const token = localStorage.getItem('token')
+    if (isLoggedIn) {
+      MoviesApi.getMovies()
+        .then((movie) => {
+          setMovies(movie)
+          // localStorage.setItem("movies", JSON.stringify(movie));
+        })
+        .catch((err) => {
+          MainApi.showError(err, "При загрузке фильмов произошла ошибка");
+        })
 
-  useEffect(() => {
-    localStorage.setItem("shortSaveMovie", shortSaveMovie);
-  }, [shortSaveMovie]);
-
-  useEffect(() => {
-    if (clearInputMovie === false) {
-      setMovies(movies)
+      MainApi.getSaveMovies(token)
+        .then((movie) => {
+          setSaveMovies(movie)
+          localStorage.setItem("saveMovies", JSON.stringify(movie));
+        })
+        .catch((err) => {
+          MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
+        })
     }
-  }, [clearInputMovie]);
-  console.log('clearInputMovie app', clearInputMovie)
+  }, [isLoggedIn])
+  console.log(isLoggedIn)
 
   const onRegister = (name, email, password) => {
     return MainApi
@@ -128,9 +137,10 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res.token) {
-          localStorage.setItem('token', res.token);
+          const token = res.token
+          localStorage.setItem('token', token);
           setLoggedIn(true);
-          MainApi.checkToken(res.token)
+          MainApi.checkToken(token)
             .then((res) => {
               setCurrentUser({
                 name: res.user.name,
@@ -138,13 +148,8 @@ function App() {
               });
               navigate("/movies");
               setServerMessage("Добро пожаловать!");
+              setChekStatusErrorServer(false)
             })
-          MainApi.getSaveMovies(res.token)
-            .then((res) => {
-              setSaveMovies(res.movies);
-            })
-          navigate("/movies");
-          setChekStatusErrorServer(false)
         }
       })
       .catch((err) => {
@@ -161,8 +166,14 @@ function App() {
   // выход
   const onSignOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem("movies");
+    localStorage.removeItem("saveMovies");
+    localStorage.removeItem("resultMovies");
+    localStorage.removeItem("resultSaveMovies");
     localStorage.removeItem("shortMovie");
     localStorage.removeItem("shortSaveMovie");
+    localStorage.removeItem("moviesValue");
+    localStorage.removeItem("savedMoviesValue");
     setCurrentUser({ name: "", email: "" })
     setLoggedIn(false);
     navigate("/");
@@ -192,33 +203,36 @@ function App() {
   }
 
   const handleSearchMovies = (searchMovie, shortMovies) => {
-    // setPreloader(true);
+    setPreloader(true);
     let cloneMovies = Object.assign(movies)
     let result = sortMovies(cloneMovies, searchMovie, shortMovies)
-    console.log('result', result)
     setMovies(result)
-    // setPreloader(false);
-    localStorage.setItem("shortMovie", shortMovies);
+    setPreloader(false);
+    // localStorage.setItem("resultMovies", JSON.stringify(result));
+    setResultMovies(result)
   }
 
   const handleSearchSaveMovies = (searchMovie, shortMovies) => {
+    setPreloader(true);
     let cloneMovies = Object.assign(saveMovies)
     let result = sortMovies(cloneMovies, searchMovie, shortMovies)
-    console.log('result', result)
     setSaveMovies(result)
-    localStorage.setItem("shortSaveMovie", JSON.stringify(shortMovies));
+    setPreloader(false);
+    // localStorage.setItem("resultSaveMovies", JSON.stringify(result));
+    setResultSaveMovies(result)
   }
 
   const addMovie = (newMovie) => {
     const token = localStorage.getItem('token');
     setPreloader(true);
-    console.log(newMovie)
+    // console.log(newMovie)
     if (token) {
       MainApi
         .addSaveMovie(newMovie, token)
         .then((movie) => {
           setSaveMovies([...saveMovies, movie])
           // console.log(saveMovies)
+          // localStorage.setItem("saveMovies", JSON.stringify(newArrMovie));
         })
         .catch((err) => {
           MainApi.showError(err, "Не удалось добавить фильм");
@@ -262,13 +276,12 @@ function App() {
                 movies={movies}
                 setMovies={setMovies}
                 handleFilm={handleSearchMovies}
-                shortMovie={shortMovie}
-                setShortMovie={setShortMovie}
+                short={shortMovie}
+                setShort={setShortMovie}
                 addMovie={addMovie}
                 deleteMovie={deleteMovie}
                 saveMovies={saveMovies}
                 preloader={preloader}
-                setClearInputMovie={setClearInputMovie}
               />
             } />
           </Route>
@@ -284,7 +297,6 @@ function App() {
                 setShortSaveMovie={setShortSaveMovie}
                 deleteMovie={deleteMovie}
                 preloader={preloader}
-                setClearInputSaveMovie={setClearInputSaveMovie}
               />
             } />
           </Route>

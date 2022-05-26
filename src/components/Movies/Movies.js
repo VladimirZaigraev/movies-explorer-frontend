@@ -7,10 +7,10 @@ import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import { filterMovies } from '../../utils/helpers'
 
-export const Movies = ({ isLoggedIn, movies, setMovies, handleFilm, shortMovie, setShortMovie, addMovie, deleteMovie, saveMovies, setClearInputMovie, preloader }) => {
+export const Movies = ({ isLoggedIn, movies, setMovies, handleFilm, short, setShort, addMovie, deleteMovie, saveMovies, preloader }) => {
 
-  let moviesSort = filterMovies(movies, shortMovie)
-  console.log('Movies ', shortMovie)
+  let moviesSort = filterMovies(movies, short)
+
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
@@ -18,9 +18,8 @@ export const Movies = ({ isLoggedIn, movies, setMovies, handleFilm, shortMovie, 
         <div className="container movies__container">
           <SearchForm
             handleFilm={handleFilm}
-            short={shortMovie}
-            setShort={setShortMovie}
-            setClearInput={setClearInputMovie}
+            short={short}
+            setShort={setShort}
           />
           <MoviesCardList
             movies={moviesSort}

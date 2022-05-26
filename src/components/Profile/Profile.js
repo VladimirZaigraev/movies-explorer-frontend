@@ -9,7 +9,6 @@ import './Profile.sass'
 
 export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, editMessage, chekStatusErrorServer, edit, setEdit }) => {
   const currentUser = useContext(CurrentUserContext);
-  // const [edit, setEdit] = useState(false);
 
   const name = useInput('');
   const email = useInput('');
@@ -21,7 +20,7 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, e
 
   const valueRepeat = name.value === currentUser.name && email.value === currentUser.email
 
-  console.log(edit)
+  // console.log(edit)
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event)
