@@ -21,3 +21,11 @@ export const useLocalStorage = (key, defaultValue) => {
 
   return { value, setValue };
 };
+
+// export const useLocalStorage = (key, defaultValue) => {
+//   const [state, setState] = useState(() => JSON.parse(localStorage.getItem(key) || defaultValue))
+//   useEffect(() => {
+//     localStorage.setItem(key, JSON.stringify(state))
+//   }, [state])
+//   return { state, setState }
+// }

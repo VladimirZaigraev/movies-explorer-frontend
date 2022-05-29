@@ -10,7 +10,6 @@ import { Portfolio } from '../Portfolio/Portfolio'
 import { Footer } from '../Footer/Footer';
 
 export const Main = ({ isLoggedIn }) => {
-  console.log('main')
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />

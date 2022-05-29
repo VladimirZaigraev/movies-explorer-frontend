@@ -1,7 +1,4 @@
-// const BASE_URL = "https://api.zaigraev.nomoredomains.work";
 import { BASE_URL } from '../config/config.js'
-
-
 
 const headers = {
   'Accept': 'application/json',
@@ -26,7 +23,6 @@ export const register = (name, email, password) => {
 
 // авторизация /signin
 export const authorize = (email, password) => {
-  // console.log(email, password)
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers
@@ -50,7 +46,6 @@ export const checkToken = (token) => {
 };
 
 export const editProfile = (name, email, token) => {
-  // console.log(name, email, token)
   return fetch(`${BASE_URL}/users/me`, {
     method: "PATCH",
     headers: {
@@ -63,7 +58,6 @@ export const editProfile = (name, email, token) => {
 
 // получение сохарненных фильмов /movies/
 export const getSaveMovies = (token) => {
-  console.log(token)
   return fetch(`${BASE_URL}/movies`, {
     method: 'GET',
     headers: {
@@ -76,7 +70,6 @@ export const getSaveMovies = (token) => {
 
 // добавление фильма
 export const addSaveMovie = (newMovie, token) => {
-  console.log('newMovie', newMovie)
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {
@@ -84,7 +77,7 @@ export const addSaveMovie = (newMovie, token) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      country: `${newMovie.country + ''}`,
+      country: newMovie.country || ' ',
       director: newMovie.director,
       duration: newMovie.duration,
       year: newMovie.year,
@@ -94,7 +87,7 @@ export const addSaveMovie = (newMovie, token) => {
       thumbnail: newMovie.trailerLink,
       movieId: newMovie.id,
       nameRU: newMovie.nameRU,
-      nameEN: newMovie.nameEN,
+      nameEN: newMovie.nameEN || ' ',
     }),
   })
     .then(checkResult);
