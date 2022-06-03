@@ -1,5 +1,6 @@
 //SearchForm — форма поиска, куда пользователь будет вводить запрос.
-import React, { useEffect, useRef, useState } from 'react'
+
+import React, { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Checkbox } from '../Checkbox/Checkbox'
 import './SearchForm.sass'
@@ -37,6 +38,7 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength, searc
     } else if (pathName === "/saved-movies") {
       setSaveMoviesValue(searchRef.current)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength, searc
     } else if (pathName === "/saved-movies") {
       setSearch(saveMoviesValue)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = (event) => {

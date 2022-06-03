@@ -17,9 +17,10 @@ export const MoviesCard = ({ movie, keyId, key_id, nameMovie, linkImage, trailer
   useEffect(() => {
     saveMovies.map((saveMovie) => {
       if (saveMovie.movieId === movie.id) {
-        setIsLike(true);
+        return setIsLike(true);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveMovies]);
 
   return (

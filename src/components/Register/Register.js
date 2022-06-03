@@ -11,7 +11,6 @@ export const Register = ({ onRegister, serverMessage, chekStatusErrorServer }) =
   const email = useInput('')
   const password = useInput('')
 
-  // console.log(name, email, password)
   const emailValidation = useValidation(email.value, { minLength: 3, isEmail: email.value })
   const passwordValidation = useValidation(password.value, { minLength: 8 })
   const nameValidation = useValidation(name.value, { minLength: 3, isName: name.value })
@@ -20,8 +19,6 @@ export const Register = ({ onRegister, serverMessage, chekStatusErrorServer }) =
     event.preventDefault();
     onRegister(name.value, email.value, password.value);
   };
-
-  console.log('chekStatusErrorServer', chekStatusErrorServer)
 
   return (
     <section className="register">
