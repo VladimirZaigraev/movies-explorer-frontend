@@ -36,13 +36,13 @@ function App() {
   const {
     value: movieData,
     setValue: setMovieData
-  } = useLocalStorage("movieData" || []);
+  } = useLocalStorage("movieData", localStorage.getItem("movieData") || []);
 
   // Данные от beatfilm-movies
   const {
     value: saveMovieData,
     setValue: setSaveMovieData
-  } = useLocalStorage("saveMovieData" || []);
+  } = useLocalStorage("saveMovieData", localStorage.getItem("saveMovieData") || []);
 
   // Стейт фильмов
   const [movies, setMovies] = useState(movieData || []);
@@ -66,13 +66,13 @@ function App() {
   const {
     value: resultMovies,
     setValue: setResultMovies
-  } = useLocalStorage("resultMovies" || []);
+  } = useLocalStorage("resultMovies", localStorage.getItem("resultMovies") || []);
 
   // Результат поиска по сохраненным фильмам 
   const {
     value: resultSaveMovies,
     setValue: setResultSaveMovies
-  } = useLocalStorage("resultSaveMovies" || []);
+  } = useLocalStorage("resultSaveMovies", localStorage.getItem("resultSaveMovies") || []);
 
   // Стейт контекста данных юзера
   const [currentUser, setCurrentUser] = useState({});
@@ -255,7 +255,7 @@ function App() {
 
   // выход
   const onSignOut = () => {
-    localStorage.clear('');
+    // localStorage.clear('');
     localStorage.removeItem('loggedIn')
     localStorage.removeItem('token')
     localStorage.removeItem('moviesValue')
