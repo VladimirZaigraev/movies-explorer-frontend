@@ -7,7 +7,7 @@ import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import { filterMovies } from '../../utils/helpers'
 
-export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm, shortSaveMovie, setShortSaveMovie, deleteMovie, preloader, setSearchLength }) => {
+export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm, shortSaveMovie, setShortSaveMovie, deleteMovie, preloader, setSearchLength, search, setSearch, }) => {
 
   let moviesSort = filterMovies(saveMovies, shortSaveMovie)
 
@@ -21,6 +21,8 @@ export const SavedMovies = ({ isLoggedIn, saveMovies, setSaveMovies, handleFilm,
             short={shortSaveMovie}
             setShort={setShortSaveMovie}
             setSearchLength={setSearchLength}
+            search={search}
+            setSearch={setSearch}
           />
           <MoviesCardList
             movies={moviesSort}

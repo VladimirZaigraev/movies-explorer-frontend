@@ -7,9 +7,9 @@ import './SearchForm.sass'
 import { useValidation } from '../../hooks/useValidation'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 
-export const SearchForm = ({ handleFilm, short, setShort, setSearchLength }) => {
+export const SearchForm = ({ handleFilm, short, setShort, setSearchLength, search, setSearch }) => {
 
-  const [search, setSearch] = useState('')
+
   const searchValidation = useValidation(search, { minLength: 2 })
 
   const location = useLocation();
@@ -21,9 +21,9 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength }) => 
   } = useLocalStorage("moviesValue", localStorage.getItem("moviesValue") || '');
 
   const {
-    value: savedMoviesValue,
-    setValue: setSavedMoviesValue
-  } = useLocalStorage("savedMoviesValue", localStorage.getItem("savedMoviesValue") || '');
+    value: saveMoviesValue,
+    setValue: setSaveMoviesValue
+  } = useLocalStorage("saveMoviesValue", localStorage.getItem("saveMoviesValue") || '');
 
   const searchRef = useRef(search);
 
@@ -35,7 +35,7 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength }) => 
     if (pathName === "/movies") {
       setMoviesValue(searchRef.current)
     } else if (pathName === "/saved-movies") {
-      setSavedMoviesValue(searchRef.current)
+      setSaveMoviesValue(searchRef.current)
     }
   }, [search]);
 
@@ -43,7 +43,7 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength }) => 
     if (pathName === "/movies") {
       setSearch(moviesValue)
     } else if (pathName === "/saved-movies") {
-      setSearch(savedMoviesValue)
+      setSearch(saveMoviesValue)
     }
   }, [])
 
@@ -54,7 +54,6 @@ export const SearchForm = ({ handleFilm, short, setShort, setSearchLength }) => 
 
   const handelChange = (event) => {
     setSearch(event.target.value)
-    setSearchLength(event.target.value.length)
   }
 
   return (

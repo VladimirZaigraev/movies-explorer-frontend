@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { Main } from '../Main/Main';
@@ -20,28 +20,35 @@ function App() {
   let navigate = useNavigate();
 
   // Стейт  регистрации
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const {
+    value: isLoggedIn,
+    setValue: setLoggedIn
+  } = useLocalStorage("loggedIn", JSON.parse(localStorage.getItem("loggedIn")) || false);
 
   // Стейт редактирования
   const [edit, setEdit] = useState(false);
+
+  const [searchMovies, setSearchMovies] = useState(localStorage.getItem("moviesValue") || '');
+
+  const [searchSaveMovies, setSaveSearchMovies] = useState(localStorage.getItem("saveMoviesValue") || '');
 
   // Данные от main-api
   const {
     value: movieData,
     setValue: setMovieData
-  } = useLocalStorage("movieData", localStorage.getItem("movieData") || []);
+  } = useLocalStorage("movieData" || []);
 
   // Данные от beatfilm-movies
   const {
     value: saveMovieData,
     setValue: setSaveMovieData
-  } = useLocalStorage("saveMovieData", localStorage.getItem("saveMovieData") || []);
+  } = useLocalStorage("saveMovieData" || []);
 
   // Стейт фильмов
-  const [movies, setMovies] = useState(movieData);
+  const [movies, setMovies] = useState(movieData || []);
 
   // Стейт сохраненных фильмов
-  const [saveMovies, setSaveMovies] = useState(saveMovieData);
+  const [saveMovies, setSaveMovies] = useState(saveMovieData || []);
 
   // Переключатель фильмов
   const {
@@ -59,13 +66,13 @@ function App() {
   const {
     value: resultMovies,
     setValue: setResultMovies
-  } = useLocalStorage("resultMovies", localStorage.getItem("resultMovies") || []);
+  } = useLocalStorage("resultMovies" || []);
 
   // Результат поиска по сохраненным фильмам 
   const {
     value: resultSaveMovies,
     setValue: setResultSaveMovies
-  } = useLocalStorage("resultSaveMovies", localStorage.getItem("resultSaveMovies") || []);
+  } = useLocalStorage("resultSaveMovies" || []);
 
   // Стейт контекста данных юзера
   const [currentUser, setCurrentUser] = useState({});
@@ -76,12 +83,6 @@ function App() {
   //Cтейт текста ошибки 
   const [serverMessage, setServerMessage] = useState('');
 
-  // Cтейт длинны поискового запроса фильмов
-  const [searchLengthMovies, setSearchLengthMovies] = useState(Number)
-
-  // Cтейт длинны поискового запроса фильмов
-  const [searchLengthSavedMovies, setSearchLengthSavedMovies] = useState(Number)
-
   // Стейт редактирования профиля
   const [editMessage, setEditMessage] = useState('');
 
@@ -90,75 +91,120 @@ function App() {
 
   // Обновление стейтов при первой загрузке
   useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem("resultMovies")).length === 0 ? movieData : JSON.parse(localStorage.getItem("resultMovies")))
+    console.log(' Обновление стейтов при первой загрузке')
+    let moviesValueLS = JSON.parse(localStorage.getItem("moviesValue")) || '';
+    if (moviesValueLS.length === 0) {
+      if (movieData.length > 0) {
+        setMovies(movieData)
+        setResultMovies([])
+      } else {
+        getAllMovies()
+      }
+    } else {
+      setMovies(resultMovies || [])
+    }
 
-    setSaveMovies(JSON.parse(localStorage.getItem("resultSaveMovies")).length === 0 ? saveMovieData : JSON.parse(localStorage.getItem("resultSaveMovies")))
+    let saveMoviesValueLS = JSON.parse(localStorage.getItem("saveMoviesValue")) || '';
+    if (saveMoviesValueLS.length === 0) {
+      if (saveMovieData.length > 0) {
+        setSaveMovies(saveMovieData)
+        setResultSaveMovies([])
+      } else {
+        getSaveMovies()
+      }
+    } else {
+      setSaveMovies(resultSaveMovies || [])
+    }
   }, [])
 
-  useEffect(() => {
-    setSaveMovies(saveMovieData)
-  }, [saveMovieData])
+  // Получение данных юзера
+  async function handleTokenCheck() {
+    setPreloader(true);
+    await MainApi.checkToken()
+      .then((res) => {
+        setLoggedIn(true)
+        console.log('запуск')
+        localStorage.setItem("loggedIn", JSON.stringify("true"));
+        setCurrentUser({
+          name: res.user.name,
+          email: res.user.email
+        });
+      })
+      .catch((err) => {
+        MainApi.showError(err, "При загрузке данных пользователя произошла ошибка");
+      })
+      .finally(() => {
+        setPreloader(false);
+      });
+  }
+
+  // Получение фильмов от внешнего апи
+  async function getAllMovies() {
+    setPreloader(true);
+    await MoviesApi.getMovies()
+      .then((movie) => {
+        setMovieData(movie)
+        setMovies(movie)
+        console.log('Запрос фильмов')
+      })
+      .catch((err) => {
+        MainApi.showError(err, "При загрузке фильмов произошла ошибка");
+      })
+      .finally(() => {
+        setPreloader(false);
+      });
+  }
+
+  // Получение сохраненных фильмов
+  async function getSaveMovies() {
+    setPreloader(true);
+    await MainApi.getSaveMovies()
+      .then((movie) => {
+        setSaveMovieData(movie);
+        setSaveMovies(movie)
+        console.log('Запрос сохраненных фильмов');
+      })
+      .catch((err) => {
+        MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
+      })
+      .finally(() => {
+        setPreloader(false);
+      });
+  }
 
   // Получение данных юзера
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      setLoggedIn(true)
-      setPreloader(true);
-      MainApi.checkToken(token)
-        .then((res) => {
-          setCurrentUser({
-            name: res.user.name,
-            email: res.user.email
-          });
-        })
-        .catch((err) => {
-          MainApi.showError(err, "При загрузке данных пользователя произошла ошибка");
-        })
-        .finally(() => {
-          setPreloader(false);
-        });
+      setLoggedIn(true);
+      handleTokenCheck();
     } else {
-      setLoggedIn(false)
+      setLoggedIn(false);
     }
   }, [])
 
   // Получения данных фильмов
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (isLoggedIn) {
-      MoviesApi.getMovies()
-        .then((movie) => {
-          setMovieData(movie)
-        })
-        .catch((err) => {
-          MainApi.showError(err, "При загрузке фильмов произошла ошибка");
-        })
-      MainApi.getSaveMovies(token)
-        .then((movie) => {
-          setSaveMovieData(movie)
-        })
-        .catch((err) => {
-          MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
-        })
+    if (isLoggedIn === true) {
+      getAllMovies();
+      getSaveMovies();
     }
   }, [isLoggedIn])
 
-  // обнуление поиска при изменении поиска
-  useMemo(() => {
-    let moviesValueLS = JSON.parse(localStorage.getItem("moviesValue")) || '';
-    if (moviesValueLS.length !== searchLengthMovies) {
-      setMovies(JSON.parse(localStorage.getItem("movieData")))
+  // обнуление поиска
+  useEffect(() => {
+    if (searchMovies.length === 0) {
+      setMovies(movieData)
     }
-  }, [searchLengthMovies, JSON.parse(localStorage.getItem("moviesValue"))])
+  }, [searchMovies])
 
-  // обнуление поиска при изменении поиска сохраненных фильмов
-  useMemo(() => {
-    let moviesValueLS = JSON.parse(localStorage.getItem("savedMoviesValue")) || '';
-    if (moviesValueLS.length !== searchLengthSavedMovies) {
-      setSaveMovies(JSON.parse(localStorage.getItem("saveMovieData")))
+  // обнуление поиска сохраненных фильмов
+  useEffect(() => {
+    if (searchSaveMovies.length === 0) {
+      console.log(searchSaveMovies.length)
+      setSaveMovies(saveMovieData)
     }
-  }, [searchLengthSavedMovies, JSON.parse(localStorage.getItem("savedMoviesValue"))])
+  }, [searchSaveMovies])
 
   // регистрация пользователей
   const onRegister = (name, email, password) => {
@@ -190,16 +236,10 @@ function App() {
           const token = res.token
           localStorage.setItem('token', token);
           setLoggedIn(true);
-          MainApi.checkToken(token)
-            .then((res) => {
-              setCurrentUser({
-                name: res.user.name,
-                email: res.user.email
-              });
-              navigate("/movies");
-              setServerMessage("Добро пожаловать!");
-              setChekStatusErrorServer(false)
-            })
+          handleTokenCheck();
+          navigate("/movies");
+          setServerMessage("Добро пожаловать!");
+          setChekStatusErrorServer(false);
         }
       })
       .catch((err) => {
@@ -215,18 +255,20 @@ function App() {
 
   // выход
   const onSignOut = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem("movieData");
-    localStorage.removeItem("saveMovieData")
-    localStorage.removeItem("movies");
-    localStorage.removeItem("saveMovies");
-    localStorage.removeItem("resultMovies");
-    localStorage.removeItem("resultSaveMovies");
-    localStorage.removeItem("shortMovie");
-    localStorage.removeItem("shortSaveMovie");
-    localStorage.removeItem("moviesValue");
-    localStorage.removeItem("savedMoviesValue");
-    setServerMessage('')
+    localStorage.clear('');
+    localStorage.removeItem('loggedIn')
+    localStorage.removeItem('token')
+    localStorage.removeItem('moviesValue')
+    localStorage.removeItem('movieData')
+    localStorage.removeItem('shortMovie')
+    localStorage.removeItem('resultMovies')
+    localStorage.removeItem('saveMovieData')
+    localStorage.removeItem('saveMoviesValue')
+    localStorage.removeItem('shortSaveMovie')
+    localStorage.removeItem('resultSaveMovies')
+    setMovies([]);
+    setSaveMovies([]);
+    setServerMessage('');
     setCurrentUser({ name: "", email: "" })
     setLoggedIn(false);
     navigate("/");
@@ -235,7 +277,7 @@ function App() {
   // редактирование данных пользователя
   const onEditProfile = (name, email) => {
     return MainApi
-      .editProfile(name, email, localStorage.getItem('token'))
+      .editProfile(name, email)
       .then((res) => {
         setChekStatusErrorServer(false)
         setCurrentUser({
@@ -261,9 +303,8 @@ function App() {
     setPreloader(true);
     let result = sortMovies(movieData, searchMovie, shortMovies)
     setMovies(result)
-    setPreloader(false);
-    // localStorage.setItem("movies", JSON.stringify(result));
     setResultMovies(result)
+    setPreloader(false);
   }
 
   // Поиск по сохраненным фильмам
@@ -271,8 +312,8 @@ function App() {
     setPreloader(true);
     let result = sortMovies(saveMovieData, searchMovie, shortMovies)
     setSaveMovies(result)
-    setPreloader(false);
     setResultSaveMovies(result)
+    setPreloader(false);
   }
 
   // лайк/добавление фильма
@@ -281,8 +322,9 @@ function App() {
     setPreloader(true);
     if (token) {
       MainApi
-        .addSaveMovie(newMovie, token)
+        .addSaveMovie(newMovie)
         .then((movie) => {
+          setSaveMovies([...saveMovieData, movie])
           setSaveMovieData([...saveMovieData, movie])
         })
         .catch((err) => {
@@ -300,9 +342,9 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       MainApi
-        .deleteSaveMovie(delMovie, token)
+        .deleteSaveMovie(delMovie)
         .then(() => {
-          // setSaveMovies(saveMovies.filter((saveMovie) => saveMovie._id !== delMovie._id));
+          setSaveMovies(saveMovies.filter((saveMovie) => saveMovie._id !== delMovie._id));
           setSaveMovieData(saveMovieData.filter((saveMovie) => saveMovie._id !== delMovie._id))
         })
         .catch((err) => {
@@ -334,7 +376,8 @@ function App() {
                 deleteMovie={deleteMovie}
                 saveMovies={saveMovies}
                 preloader={preloader}
-                setSearchLength={setSearchLengthMovies}
+                search={searchMovies}
+                setSearch={setSearchMovies}
               />
             } />
           </Route>
@@ -350,7 +393,8 @@ function App() {
                 setShortSaveMovie={setShortSaveMovie}
                 deleteMovie={deleteMovie}
                 preloader={preloader}
-                setSearchLength={setSearchLengthSavedMovies}
+                search={searchSaveMovies}
+                setSearch={setSaveSearchMovies}
               />
             } />
           </Route>
