@@ -28,7 +28,7 @@ export const authorize = (email, password) => fetch(`${BASE_URL}/signin`, {
 }).then(checkResult);
 
 // проверка токена /users/me
-export const checkToken = () => fetch(`${BASE_URL}/users/me`, {
+export const getUserData = () => fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
   headers: {
     ...headers,
@@ -69,8 +69,8 @@ export const addSaveMovie = (newMovie) => fetch(`${BASE_URL}/movies`, {
     year: newMovie.year || 'year',
     description: newMovie.description,
     image: `${`https://api.nomoreparties.co${newMovie.image.url}`}`,
-    trailerLink: newMovie.trailerLink,
-    thumbnail: newMovie.trailerLink,
+    trailerLink: newMovie.trailerLink || 'trailerLink',
+    thumbnail: newMovie.trailerLink || 'thumbnail',
     movieId: newMovie.id,
     nameRU: newMovie.nameRU || 'nameRU',
     nameEN: newMovie.nameEN || 'nameEN',

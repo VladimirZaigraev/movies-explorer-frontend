@@ -8,8 +8,7 @@ import './SearchForm.sass'
 import { useValidation } from '../../hooks/useValidation'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 
-export const SearchForm = ({ handleFilm, short, setShort, setSearchLength, search, setSearch }) => {
-
+export const SearchForm = ({ handleFilm, short, setShort, search, setSearch }) => {
 
   const searchValidation = useValidation(search, { minLength: 2 })
 

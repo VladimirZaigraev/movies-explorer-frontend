@@ -5,8 +5,6 @@ const sortMovies = (movies, searchMovie, short) => {
     return string ? string.toLowerCase().includes(searchValue) : false;
   }
 
-  // const shortMovies = filterMovies(movies, short)
-
   const searchMovies = movies.filter((movie) => {
     const strNameRU = includesString(movie.nameRU)
     const strNameEN = includesString(movie.nameEN);
@@ -15,7 +13,7 @@ const sortMovies = (movies, searchMovie, short) => {
     const strYear = includesString(movie.year);
     return strNameRU || strNameEN || strDirector || strCountry || strYear;
   });
-  // console.log(searchMovies)
+
   return searchMovies;
 };
 

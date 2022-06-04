@@ -4,9 +4,11 @@ export const useLocalStorage = (key, defaultValue) => {
   const [value, setValue] = useState(() => {
     let currentValue;
 
+    let tmp = defaultValue === undefined ? null : defaultValue
+
     try {
       currentValue = JSON.parse(
-        localStorage.getItem(key) || String(defaultValue)
+        localStorage.getItem(key) || String(tmp)
       );
     } catch (error) {
       currentValue = defaultValue;
@@ -21,11 +23,3 @@ export const useLocalStorage = (key, defaultValue) => {
 
   return { value, setValue };
 };
-
-// export const useLocalStorage = (key, defaultValue) => {
-//   const [state, setState] = useState(() => JSON.parse(localStorage.getItem(key) || defaultValue))
-//   useEffect(() => {
-//     localStorage.setItem(key, JSON.stringify(state))
-//   }, [state])
-//   return { state, setState }
-// }

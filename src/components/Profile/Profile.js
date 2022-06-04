@@ -20,10 +20,8 @@ export const Profile = ({ isLoggedIn, onEditProfile, onSignOut, serverMessage, e
 
   const valueRepeat = name.value === currentUser.name && email.value === currentUser.email
 
-  // console.log(edit)
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event)
     onEditProfile(name.value, email.value);
   };
 

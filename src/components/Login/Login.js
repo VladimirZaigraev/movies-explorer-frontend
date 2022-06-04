@@ -16,7 +16,6 @@ export const Login = ({ onLogin, serverMessage, chekStatusErrorServer }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onLogin(email.value, password.value);
-    // console.log(email.value, password.value)
   };
 
   return (

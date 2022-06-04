@@ -15,13 +15,22 @@ export const MoviesCard = ({ movie, keyId, key_id, nameMovie, linkImage, trailer
   const duration = String((movieDuration / 60).toFixed(0)) + ' ч ' + String(movieDuration % 60) + ' мин';
 
   useEffect(() => {
-    saveMovies.map((saveMovie) => {
+    saveMovies.forEach((saveMovie) => {
       if (saveMovie.movieId === movie.id) {
-        return setIsLike(true);
+        setIsLike(true);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [saveMovies]);
+
+  const handlerLike = () => {
+    if (isLike) {
+      deleteMovie(saveMovies.find((saveMovie) => saveMovie.movieId === movie.id));
+    } else {
+      addMovie(movie)
+    }
+    setIsLike(!isLike);
+  }
 
   return (
     <li className="card item" key={keyId === undefined ? key_id : keyId}>
@@ -39,14 +48,7 @@ export const MoviesCard = ({ movie, keyId, key_id, nameMovie, linkImage, trailer
           >
           </button>
         ) : (
-          <button className={`card__like button ${isLike && 'card__like_active'}`} onClick={() => {
-            if (isLike) {
-              deleteMovie(saveMovies.find((saveMovie) => saveMovie.movieId === movie.id));
-            } else {
-              addMovie(movie)
-            }
-            setIsLike(!isLike);
-          }}></button>
+          <button className={`card__like button ${isLike && 'card__like_active'}`} onClick={handlerLike}></button>
         )}
       </div>
       <a href={trailerLink}
