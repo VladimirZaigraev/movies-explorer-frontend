@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { Main } from '../Main/Main';
@@ -19,18 +19,15 @@ import { useLocalStorage } from '../../hooks/useLocalStorage'
 function App() {
   let navigate = useNavigate();
 
-  // Стейт  регистрации
-  const {
-    value: isLoggedIn,
-    setValue: setLoggedIn
-  } = useLocalStorage("loggedIn" || true);
+  // Стейт  регистраци
+  const [isLoggedIn, setLoggedIn] = useState(localStorage.getItem("token") !== null ? true : false);
 
   // Стейт редактирования
   const [edit, setEdit] = useState(false);
 
-  const [searchMovies, setSearchMovies] = useState(localStorage.getItem("moviesValue") || '');
+  const [searchMovies, setSearchMovies] = useState(JSON.parse(localStorage.getItem("moviesValue")) || '');
 
-  const [searchSaveMovies, setSaveSearchMovies] = useState(localStorage.getItem("saveMoviesValue") || '');
+  const [searchSaveMovies, setSaveSearchMovies] = useState(JSON.parse(localStorage.getItem("saveMoviesValue")) || '');
 
   // Данные от main-api
   const {
@@ -45,7 +42,7 @@ function App() {
   } = useLocalStorage("saveMovieData", []);
 
   // Стейт фильмов
-  const [movies, setMovies] = useState(movieData);
+  const [movies, setMovies] = useState([]);
 
   // Стейт сохраненных фильмов
   const [saveMovies, setSaveMovies] = useState([]);
@@ -91,36 +88,39 @@ function App() {
 
   // Обновление стейтов при первой загрузке
   useEffect(() => {
-    // console.log(' Обновление стейтов при первой загрузке')
-    let moviesValueLS = JSON.parse(localStorage.getItem("moviesValue")) || '';
-    if (moviesValueLS.length === 0 && searchMovies.length === 0) {
-      setMovies(movieData)
-      setResultMovies([])
-    } else if (resultMovies.length > 0) {
-      setMovies(resultMovies)
-    } else {
-      getAllMovies()
+    if (localStorage.getItem('token') !== null && isLoggedIn) {
+      let moviesValueLS = JSON.parse(localStorage.getItem("moviesValue")) || '';
+      if (moviesValueLS.length === 0 && searchMovies === '' && movieData.length !== 0) {
+        setMovies(movieData)
+        setResultMovies([])
+      } else if (resultMovies.length > 0) {
+        setMovies(resultMovies)
+      } else {
+        getAllMovies()
+      }
     }
+  }, [movieData])
 
-    let saveMoviesValueLS = JSON.parse(localStorage.getItem("saveMoviesValue")) || '';
-    if (saveMoviesValueLS.length === 0 && searchSaveMovies.length === 0) {
-      setSaveMovies(saveMovieData)
-      setResultSaveMovies([])
-    } else if (resultSaveMovies.length > 0) {
-      setSaveMovies(resultSaveMovies)
-    } else {
-      getSaveMovies()
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null && isLoggedIn) {
+      let saveMoviesValueLS = JSON.parse(localStorage.getItem("saveMoviesValue")) || '';
+      if (saveMoviesValueLS.length === 0 && searchSaveMovies === '') {
+        setSaveMovies(saveMovieData)
+        setResultSaveMovies([])
+      } else if (resultSaveMovies.length > 0) {
+        setSaveMovies(resultSaveMovies)
+      } else {
+        getSaveMovies()
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [saveMovieData])
 
   // Получение данных юзера
-  async function handleTokenCheck() {
+  async function getUserInfo() {
     setPreloader(true);
-    await MainApi.checkToken()
+    await MainApi.getUserData()
       .then((res) => {
-        setLoggedIn(true)
-        localStorage.setItem("loggedIn", JSON.stringify("true"));
+        setLoggedIn(true);
         setCurrentUser({
           name: res.user.name,
           email: res.user.email
@@ -128,6 +128,7 @@ function App() {
       })
       .catch((err) => {
         MainApi.showError(err, "При загрузке данных пользователя произошла ошибка");
+        setLoggedIn(false);
       })
       .finally(() => {
         setPreloader(false);
@@ -135,46 +136,46 @@ function App() {
   }
 
   // Получение фильмов от внешнего апи
-  async function getAllMovies() {
-    setPreloader(true);
-    await MoviesApi.getMovies()
-      .then((movie) => {
-        setMovieData(movie)
-      })
-      .catch((err) => {
-        MainApi.showError(err, "При загрузке фильмов произошла ошибка");
-      })
-      .finally(() => {
-        setPreloader(false);
-      });
-  }
+  const getAllMovies = useCallback(
+    async () => {
+      setPreloader(true);
+      await MoviesApi.getMovies()
+        .then((movie) => {
+          setMovieData(movie)
+          // setMovies(movie)
+        })
+        .catch((err) => {
+          MainApi.showError(err, "При загрузке фильмов произошла ошибка");
+        })
+        .finally(() => {
+          setPreloader(false);
+        });
+    }
+  )
 
   // Получение сохраненных фильмов
-  async function getSaveMovies() {
-    setPreloader(true);
-    await MainApi.getSaveMovies()
-      .then((movie) => {
-        setSaveMovieData(movie);
-      })
-      .catch((err) => {
-        MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
-      })
-      .finally(() => {
-        setPreloader(false);
-      });
-  }
+  const getSaveMovies = useCallback(
+    async () => {
+      setPreloader(true);
+      await MainApi.getSaveMovies()
+        .then((movie) => {
+          setSaveMovieData(movie);
+        })
+        .catch((err) => {
+          MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
+        })
+        .finally(() => {
+          setPreloader(false);
+        });
+    }, [setSaveMovieData]
+  )
 
   // Получение данных юзера
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      setLoggedIn(true);
-      handleTokenCheck();
-    } else {
-      setLoggedIn(false);
+    if (localStorage.getItem('token') !== null && isLoggedIn) {
+      getUserInfo();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isLoggedIn])
 
   // Получения данных фильмов
   useEffect(() => {
@@ -182,7 +183,6 @@ function App() {
       getAllMovies();
       getSaveMovies();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn])
 
   // обнуление поиска
@@ -207,7 +207,6 @@ function App() {
       .register(name, email, password)
       .then((email) => {
         if (email) {
-          setLoggedIn(true);
           navigate("/signin");
           setServerMessage("Поздравляем, вы зарегестрированы!");
           setChekStatusErrorServer(false)
@@ -230,8 +229,8 @@ function App() {
         if (res.token) {
           const token = res.token
           localStorage.setItem('token', token);
-          setLoggedIn(true);
-          handleTokenCheck();
+          setLoggedIn(true)
+          // getUserInfo();
           navigate("/movies");
           setServerMessage("Добро пожаловать!");
           setChekStatusErrorServer(false);
@@ -250,7 +249,8 @@ function App() {
 
   // выход
   const onSignOut = () => {
-    localStorage.removeItem('loggedIn')
+    // window.localStorage.clear()
+    // localStorage.removeItem('isLoggedIn')
     localStorage.removeItem('token')
     localStorage.removeItem('moviesValue')
     localStorage.removeItem('movieData')
@@ -266,7 +266,7 @@ function App() {
     setResultSaveMovies([])
     setServerMessage('');
     setCurrentUser({ name: "", email: "" })
-    setLoggedIn(false);
+    setLoggedIn(false)
     navigate("/");
   }
 
