@@ -10,6 +10,7 @@ const checkResult = (res) => (res.ok ? res.json() : Promise.reject(`Ошибка
 // регистрация пользователя /signup
 export const register = (name, email, password) => fetch(`${BASE_URL}/signup`, {
   method: 'POST',
+  credentials: "include",
   headers,
   body: JSON.stringify({
     name,
@@ -48,6 +49,7 @@ export const editProfile = (name, email) => fetch(`${BASE_URL}/users/me`, {
 // получение сохарненных фильмов /movies/
 export const getSaveMovies = () => fetch(`${BASE_URL}/movies`, {
   method: 'GET',
+  credentials: "include",
   headers: {
     'content-Type': 'application/json',
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,6 +60,7 @@ export const getSaveMovies = () => fetch(`${BASE_URL}/movies`, {
 // добавление фильма
 export const addSaveMovie = (newMovie) => fetch(`${BASE_URL}/movies`, {
   method: 'POST',
+  credentials: "include",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     'Content-Type': 'application/json',
