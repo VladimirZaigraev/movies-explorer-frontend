@@ -5,7 +5,7 @@
 body
   @include bg-black
   margin: 0
-  font-family: 'Inter', 'Roboto',
+  font-family: Inter, Arial, Helvetica, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
@@ -47,6 +47,7 @@ code
     width: 100%
     margin: 0 0 4px 0
     padding: 0
+    position: relative
   &__label
     @include text-10
     color: #8B8B8B
@@ -61,14 +62,18 @@ code
     padding: 0
     color: #ffffff
     padding: 15px
+    margin-bottom: 17px
     // &:active
     //   border: 1px solid #ffffff
     &-erorr
+      position: absolute
+      bottom: 0
       @include text-10
+      display: inline-block
       height: 10px
       font-weight: 400
       color: #EE3465
-      margin-top: 6px
+
   &__button
     width: 100%
     height: 45px
