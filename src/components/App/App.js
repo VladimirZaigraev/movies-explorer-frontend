@@ -25,8 +25,10 @@ function App() {
   // Стейт редактирования
   const [edit, setEdit] = useState(false);
 
+  // Стейт поиска фильмов
   const [searchMovies, setSearchMovies] = useState(JSON.parse(localStorage.getItem("moviesValue")) || '');
 
+  // Стейт поиска сохраненых фильмов
   const [searchSaveMovies, setSaveSearchMovies] = useState(JSON.parse(localStorage.getItem("saveMoviesValue")) || '');
 
   // Данные от main-api
@@ -91,10 +93,14 @@ function App() {
     if (localStorage.getItem('token') !== null && isLoggedIn) {
       let moviesValueLS = JSON.parse(localStorage.getItem("moviesValue")) || '';
       if (moviesValueLS.length === 0 && searchMovies === '' && movieData.length !== 0) {
+        setPreloader(true);
         setMovies(movieData)
         setResultMovies([])
+        setPreloader(false);
       } else if (resultMovies.length > 0) {
+        setPreloader(true);
         setMovies(resultMovies)
+        setPreloader(false);
       } else {
         getAllMovies()
       }
@@ -103,12 +109,11 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null && isLoggedIn) {
-      let saveMoviesValueLS = JSON.parse(localStorage.getItem("saveMoviesValue")) || '';
-      if (saveMoviesValueLS.length === 0 && searchSaveMovies === '') {
+      if (saveMovieData.length > 0) {
+        setPreloader(true);
         setSaveMovies(saveMovieData)
         setResultSaveMovies([])
-      } else if (resultSaveMovies.length > 0) {
-        setSaveMovies(resultSaveMovies)
+        setPreloader(false);
       } else {
         getSaveMovies()
       }
@@ -205,11 +210,11 @@ function App() {
   const onRegister = (name, email, password) => {
     return MainApi
       .register(name, email, password)
-      .then((email) => {
-        if (email) {
-          navigate("/signin");
+      .then((res) => {
+        if (res.email) {
           setServerMessage("Поздравляем, вы зарегестрированы!");
           setChekStatusErrorServer(false)
+          onLogin(res.email, password)
         }
       })
       .catch((err) => {
@@ -261,9 +266,11 @@ function App() {
     localStorage.removeItem('shortSaveMovie')
     localStorage.removeItem('resultSaveMovies')
     setMovies([]);
+    setMovieData([]);
     setSaveMovies([]);
-    setResultMovies([])
-    setResultSaveMovies([])
+    setSaveMovieData([]);
+    setResultMovies([]);
+    setResultSaveMovies([]);
     setServerMessage('');
     setCurrentUser({ name: "", email: "" })
     setLoggedIn(false)
@@ -371,6 +378,7 @@ function App() {
                 addMovie={addMovie}
                 deleteMovie={deleteMovie}
                 saveMovies={saveMovies}
+                saveMovieData={saveMovieData}
                 preloader={preloader}
                 search={searchMovies}
                 setSearch={setSearchMovies}
@@ -384,6 +392,7 @@ function App() {
                 isLoggedIn={isLoggedIn}
                 saveMovies={saveMovies}
                 setSaveMovies={setSaveMovies}
+                saveMovieData={saveMovieData}
                 handleFilm={handleSearchSaveMovies}
                 shortSaveMovie={shortSaveMovie}
                 setShortSaveMovie={setShortSaveMovie}

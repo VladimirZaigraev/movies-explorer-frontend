@@ -7,5 +7,9 @@ const filterMovies = (movies, short) => {
   return newMovies;
 }
 
+const durationMovie = (movieDuration) => {
+  return String((movieDuration / 60).toFixed(0)) + ' ч ' + String(movieDuration % 60) + ' мин';
+}
 
-export { filterMovies };
+
+export { filterMovies, durationMovie };

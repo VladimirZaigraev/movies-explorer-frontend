@@ -4,7 +4,7 @@ import './MoviesCardList.sass'
 import { MoviesCard } from '../MoviesCard/MoviesCard'
 import { Preloader } from "../Preloader/Preloader";
 
-export const MoviesCardList = ({ movies, setMovies, addMovie, deleteMovie, saveMovies, preloader }) => {
+export const MoviesCardList = ({ movies, setMovies, saveMovieData, addMovie, deleteMovie, saveMovies, preloader }) => {
   const countMovies = 7;
   const [counter, setCounter] = useState(countMovies);
 
@@ -34,7 +34,8 @@ export const MoviesCardList = ({ movies, setMovies, addMovie, deleteMovie, saveM
                     movieDuration={movie.duration}
                     addMovie={addMovie}
                     deleteMovie={deleteMovie}
-                    saveMovies={saveMovies} />
+                    saveMovies={saveMovies}
+                    saveMovieData={saveMovieData} />
                 )
               })
             }

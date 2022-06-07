@@ -17,7 +17,7 @@ export const useValidation = (value, validations) => {
       switch (validation) {
         case 'minLength':
           if (value.length > 0) {
-            if (value.length <= validations[validation]) {
+            if (value.length < validations[validation]) {
               setMinLengthError(false)
               setMinLengthErrorMessage(`Введите больше символов. Минимальное значение ${validations[validation]}`)
             } else {

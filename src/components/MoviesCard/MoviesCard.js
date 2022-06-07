@@ -1,21 +1,22 @@
 // MoviesCard — компонент одной карточки фильма.
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { durationMovie } from '../../utils/helpers'
 import './MoviesCard.sass'
 
-export const MoviesCard = ({ movie, keyId, key_id, nameMovie, linkImage, trailerLink, movieDuration, addMovie, deleteMovie, saveMovies }) => {
+export const MoviesCard = ({ movie, keyId, key_id, nameMovie, linkImage, trailerLink, movieDuration, addMovie, deleteMovie, saveMovies, saveMovieData }) => {
   const location = useLocation();
 
   const [isLike, setIsLike] = useState(false);
 
   const pathName = location.pathname;
   const imgUrl = pathName === "/movies" ? "https://api.nomoreparties.co" + movie.image.url : movie.image;
-  // console.log(saveMovies)
 
-  const duration = String((movieDuration / 60).toFixed(0)) + ' ч ' + String(movieDuration % 60) + ' мин';
+  //преобразовние формата длинны фильма
+  const duration = durationMovie(movieDuration)
 
   useEffect(() => {
-    saveMovies.forEach((saveMovie) => {
+    saveMovieData.forEach((saveMovie) => {
       if (saveMovie.movieId === movie.id) {
         setIsLike(true);
       }

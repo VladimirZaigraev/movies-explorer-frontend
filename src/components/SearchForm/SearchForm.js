@@ -4,13 +4,9 @@ import React, { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Checkbox } from '../Checkbox/Checkbox'
 import './SearchForm.sass'
-// import { useInput } from '../../hooks/useInput'
-import { useValidation } from '../../hooks/useValidation'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 
 export const SearchForm = ({ handleFilm, short, setShort, search, setSearch }) => {
-
-  const searchValidation = useValidation(search, { minLength: 2 })
 
   const location = useLocation();
   const pathName = location.pathname;
@@ -44,7 +40,7 @@ export const SearchForm = ({ handleFilm, short, setShort, search, setSearch }) =
     if (pathName === "/movies") {
       setSearch(moviesValue)
     } else if (pathName === "/saved-movies") {
-      setSearch(saveMoviesValue)
+      setSearch('')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -68,13 +64,14 @@ export const SearchForm = ({ handleFilm, short, setShort, search, setSearch }) =
           value={search}
           onChange={event => handelChange(event)}
           required
-          minLength="2"
-          maxLength="30" />
+          minLength="1"
+          maxLength="30"
+          title="Введите название, страну, режиссера или год выхода фильма" />
         <button
           className="search__button search-button"
-          disabled={!searchValidation.minLengthError} >
+          disabled={search.length === 0} >
         </button>
-        <span className="form__input-erorr search-form__error" id="password-error">{searchValidation.minLengthErrorMessage}</span>
+        {/* <span className="form__input-erorr search-form__error" id="password-error">{searchValidation.minLengthErrorMessage}</span> */}
       </fieldset>
       <div className="search-form__short-film short-film">
         <p className="short-film__text">
