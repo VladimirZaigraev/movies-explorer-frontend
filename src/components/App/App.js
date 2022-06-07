@@ -109,7 +109,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null && isLoggedIn) {
-      if (saveMovieData.length > 0) {
+      if (saveMovieData.length !== 0) {
         setPreloader(true);
         setSaveMovies(saveMovieData)
         setResultSaveMovies([])
@@ -118,7 +118,7 @@ function App() {
         getSaveMovies()
       }
     }
-  }, [saveMovieData])
+  }, [])
 
   // Получение данных юзера
   async function getUserInfo() {
@@ -155,7 +155,7 @@ function App() {
         .finally(() => {
           setPreloader(false);
         });
-    }
+    }, [setMovieData]
   )
 
   // Получение сохраненных фильмов
@@ -165,6 +165,7 @@ function App() {
       await MainApi.getSaveMovies()
         .then((movie) => {
           setSaveMovieData(movie);
+          setSaveMovies(movie)
         })
         .catch((err) => {
           MainApi.showError(err, "При загрузке сохраненных фильмов произошла ошибка");
