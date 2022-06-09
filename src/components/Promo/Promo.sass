@@ -12,6 +12,7 @@
     display: flex
     flex-direction: column
     justify-content: space-between
+    align-items: flex-start
   &__title
     @include title-text-h1
     margin-bottom: 36px
@@ -25,18 +26,18 @@
     max-width: 300px
     margin-bottom: 146px
   &__btn
-    @include btn
     color: #ffffff
     background-color: inherit
+    display: inline-block
     border: 1px solid #ffffff
     opacity: 0.6
     box-sizing: border-box
+    padding: 10px 20px 10px 20px
     border-radius: 3px
-    width: 129px
-    height: 36px
     font-weight: 500
     font-size: 12px
     line-height: 16px
+    width: auto
   &__img
     object-fit: cover
     margin-bottom: 48px

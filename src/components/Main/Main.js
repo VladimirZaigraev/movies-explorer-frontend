@@ -9,11 +9,10 @@ import { AboutMe } from '../AboutMe/AboutMe'
 import { Portfolio } from '../Portfolio/Portfolio'
 import { Footer } from '../Footer/Footer';
 
-export const Main = () => {
-  console.log('main')
+export const Main = ({ isLoggedIn }) => {
   return (
     <>
-      <Header isLogin={false} />
+      <Header isLoggedIn={isLoggedIn} />
       <main className='main'>
         <Promo />
         <AboutProject />

@@ -13,7 +13,7 @@ export const Promo = () => {
             <span className="promo__text">
               Листайте ниже, чтобы узнать больше про этот проект и его создателя.
             </span>
-            <button className="promo__btn">Узнать больше</button>
+            <a href="#about-project" className="promo__btn link">Узнать больше</a>
           </div>
           <img className="promo__img" src={web} alt="promo" />
         </div>

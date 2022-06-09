@@ -57,7 +57,7 @@
     position: absolute
     top: 0
     left: 0
-    background: #FF6838
+    @include bg-green
     border-radius: 50px
 
   &__round::after,
@@ -77,5 +77,5 @@
 
   &__round::before
     z-index: 10
-    background: #FF6838
+    @include bg-green
     animation: preloader-inside-red 1s ease-in-out infinite
